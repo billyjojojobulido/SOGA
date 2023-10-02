@@ -1,5 +1,5 @@
 # SOGA: A Scavenger-Hunt Online Game App
-
+**SOGA**  is an app for creating, sharing, and playing scavenger hunts of your own design. It does nothing on its own, but it serves as a useful tool for groups to create and organize their own game.
 
 
 
