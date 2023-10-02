@@ -23,7 +23,7 @@ A **scavenger hunt** is a recreational activity or game in which participants, o
 
 
 
-## Key Technologies:
+## Key Technologies
 
 - Java (Android Studio)
 - Firebase (cloud database) / SQLite (only if necessary)?
@@ -33,7 +33,7 @@ A **scavenger hunt** is a recreational activity or game in which participants, o
 
 
 
-## Main Features: (MFP)
+## Main Features
 
 - User Management (Firebase)
   - Registration 
