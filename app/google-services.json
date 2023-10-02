@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "124872302006",
+    "project_id": "soga-fc777",
+    "storage_bucket": "soga-fc777.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124872302006:android:4492b40a573f9e8f183517",
+        "android_client_info": {
+          "package_name": "com.example.soga"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
