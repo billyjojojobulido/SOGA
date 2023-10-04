@@ -44,6 +44,7 @@ public class Login extends AppCompatActivity {
                     } else {
                         // failed
                         // determine the reason of failure
+
                         String errorMessage = task.getException().getMessage();
                         if (errorMessage.contains("There is no user record corresponding to this identifier")) {
                             //
@@ -67,18 +68,6 @@ public class Login extends AppCompatActivity {
 
 
     }
-//    private void showRegistrationDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("注册询问");
-//        builder.setMessage("该用户名未注册，是否需要注册？");
-//        builder.setPositiveButton("是", (dialog, which) -> {
-//            // 跳转到注册页面或执行注册逻辑
-//        });
-//        builder.setNegativeButton("否", (dialog, which) -> {
-//            // 用户不想注册，可以进行其他操作，如返回登录页面
-//        });
-//        builder.show();
-//    }
     private boolean checkInput(String emailText, String passwordText){
         if(TextUtils.isEmpty(emailText)){
             Toast.makeText(Login.this,"Enter your Email",Toast.LENGTH_SHORT).show();
