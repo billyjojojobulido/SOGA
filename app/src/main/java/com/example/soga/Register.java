@@ -16,14 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class Register extends AppCompatActivity {
-//    EditText email, password;
-    Button registerBtn;
-//    FirebaseApp.initializeApp(this);
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
@@ -32,12 +26,10 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
-
     }
     public void register(View view){
         EditText email, password;
-        email = findViewById(R.id.username);
+        email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.password);
         String emailText = email.getText().toString();
         String passwordText = password.getText().toString();
