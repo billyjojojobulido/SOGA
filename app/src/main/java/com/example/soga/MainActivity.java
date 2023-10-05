@@ -13,6 +13,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.soga.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +23,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            // 用户已登录，跳转到主界面
+            // 你可以在这里启动主界面的 Activity 或 Fragment
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+            finish(); // 可以选择关闭当前活动
+        } else {
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish(); // 可以选择关闭当前活动
+            // 用户未登录，显示登录界面
+            // 你可以在这里启动登录界面的 Activity 或 Fragment
+        }
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
