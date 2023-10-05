@@ -52,50 +52,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        -37.79970759026579, 144.9636742373955
+//        -37.80364308009827, 144.96373452399772
+        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
+        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
 
-//        mMap.setMyLocationEnabled(true);
 
-//        LatLng currentLocation = new LatLng(this.currentLocation.getLatitude(), this.currentLocation.getLongitude()); // 用当前经纬度替换
-//        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 20)); // 设置缩放级别
     }
 
 
-//    private void getLocation() {
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,PERMISSIONS,FINE_PERMISSION_CODE);
-//            return;
-//        }
-//        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-//        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-//            @Override
-//            public void onSuccess(Location location) {
-//                if(location!=null){
-//                    currentLocation = location;
-//                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                            .findFragmentById(R.id.map);
-//                    mapFragment.getMapAsync(MapsActivity.this);
-//                }
-//            }
-//        });
-//    }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == FINE_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // 权限已被授予，执行获取位置的操作
-//                getLocation();
-//            } else {
-//                // 用户拒绝了权限请求，可以显示一个提示或者禁用相关功能
-//                Toast.makeText(this, "Location access is denied",Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
 
     public void signOut(View view){
         mAuth.signOut();

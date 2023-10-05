@@ -19,27 +19,23 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+        if (user != null) {//if the user logged in, just jump to map page
+            intent = new Intent(this, MapsActivity.class);
 
-        if (user != null) {
-            // 用户已登录，跳转到主界面
-            // 你可以在这里启动主界面的 Activity 或 Fragment
-            Intent intent = new Intent(this, MapsActivity.class);
-            startActivity(intent);
-            finish(); // 可以选择关闭当前活动
-        } else {
-            Intent intent = new Intent(this, Login.class);
-            startActivity(intent);
-            finish(); // 可以选择关闭当前活动
-            // 用户未登录，显示登录界面
-            // 你可以在这里启动登录界面的 Activity 或 Fragment
+        } else {// if not,jump to log in page
+            intent = new Intent(this, Login.class);
         }
+        startActivity(intent);
+        finish();
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -57,8 +53,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void openRegister(View view){
-        startActivities(new Intent[]{new Intent(this, Register.class)});
-    }
 
 }
