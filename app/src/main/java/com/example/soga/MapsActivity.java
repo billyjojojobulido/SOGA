@@ -1,10 +1,12 @@
 package com.example.soga;
 
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import android.Manifest;
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng currentLatLng;
     private ActivityMapsBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
 
 
     @Override
@@ -37,6 +41,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // check location permission
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // if do not have, ask user for the permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        } else {
+            // if it has, get location.
+            getCurrentLocation();
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -64,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 //        -37.79970759026579, 144.9636742373955
 //        -37.80364308009827, 144.96373452399772
-        getCurrentLocation();
+//        getCurrentLocation();
 //        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
         LatLng unimelb = currentLatLng;
         mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
@@ -77,8 +93,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This method get the current location via locationManager
      * */
     public void getCurrentLocation() {
-        double Default_Lat = 0;
-        double Default_Lng = 0;
+        double Default_Lat = -37.80364308009827;
+        double Default_Lng = 144.96373452399772;
         LocationManager locationManager = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -111,5 +127,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
         finish();
         Toast.makeText(this, "User logged out.",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation();
+                LatLng unimelb = currentLatLng;
+                mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
+            } else {
+                getCurrentLocation();
+                Toast.makeText(this, "Location permission dined.",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
