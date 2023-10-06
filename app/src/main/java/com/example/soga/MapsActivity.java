@@ -3,7 +3,10 @@ package com.example.soga;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -17,10 +20,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
+    private LatLng currentLatLng;
     private ActivityMapsBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -54,10 +60,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 //        -37.79970759026579, 144.9636742373955
 //        -37.80364308009827, 144.96373452399772
-        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
+        getCurrentLocation();
+//        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
+        LatLng unimelb = currentLatLng;
         mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
 
+
+    }
+
+    /**
+     * This method get the current location via locationManager
+     * */
+    public void getCurrentLocation() {
+        double Default_Lat = 0;
+        double Default_Lng = 0;
+        LocationManager locationManager = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        }
+        List<String> providers = locationManager.getProviders(true);
+        Location location;
+        for (String provider : providers) {
+            try {
+                location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    Default_Lat = location.getLatitude();
+                    Default_Lng = location.getLongitude();
+                    break;
+                }
+
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        currentLatLng = new LatLng(Default_Lat, Default_Lng);
 
     }
 
