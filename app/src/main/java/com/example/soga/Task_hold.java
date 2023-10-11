@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,10 +23,17 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     private Runnable stabilityRunnable;
     private boolean isTimeRunning = false;
 
+    private Button button_test;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
+        button_test = findViewById(R.id.button_test);
+        button_test.setText("Stating running");
+
+
+
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -48,7 +56,7 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        System.out.println("IN task");
+
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             float x = event.values[0];
             float y = event.values[1];
@@ -77,12 +85,15 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     private void start(){
         isTimeRunning = true;
 
+        button_test.setText("staring to check......");
+
         stabilityRunnable = new Runnable() {
             @Override
             public void run() {
                 // Device has remained stable for 10 seconds
                 isFacingUpStable = true;
                 // Handle the event here, e.g., show a notification or update the UI
+                button_test.setText("Stable and Facing up");
             }
         };
         stabilityHandler.postDelayed(stabilityRunnable, 10000); // 10 seconds
@@ -93,6 +104,8 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     private void pause(){
         isTimeRunning = false;
         stabilityHandler.removeCallbacks(stabilityRunnable);
+        button_test.setText("Now not stable");
+
 
     }
 
