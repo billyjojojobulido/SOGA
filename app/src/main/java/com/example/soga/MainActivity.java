@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         Intent intent;
+
         if (user != null) {//if the user logged in, just jump to map page
 //            intent = new Intent(this, Register.class);
             intent = new Intent(this, MapsActivity.class);
