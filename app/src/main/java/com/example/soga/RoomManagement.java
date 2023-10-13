@@ -48,13 +48,13 @@ public class RoomManagement extends AppCompatActivity {
             return;
         }
 
+
         new Thread(new Runnable() {
+
+            // Request should be sent in other Thread than main Thread
             @Override
             public void run() {
                 try {
-//                    // 在这里执行网络请求
-//                    // 例如，使用HttpURLConnection或者第三方网络请求库
-//                    // 这里的网络请求代码应该在后台线程执行
                     String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
                         address
                         + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
@@ -70,82 +70,53 @@ public class RoomManagement extends AppCompatActivity {
                         sb.append((char) c);
                     }
                     String response = sb.toString();
+                    String msg = "";
 
                     connection.disconnect();
+
+                    // Json Parser
+                    JsonElement jsonElement = JsonParser.parseString(response);
+                    String lat = "";
+                    String lng = "";
+
+                    if (jsonElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                        JsonArray results = jsonObject.get("results").getAsJsonArray();
+                        JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
+                        lat = location.getAsJsonObject().get("lat").getAsString();
+                        lng = location.getAsJsonObject().get("lng").getAsString();
 //
-//                    // 如果需要更新UI，使用Handler或其他机制来在主线程中执行
+//                    // 现在你可以使用name和age变量
+//                    Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
+                        msg = "GET IT ";
+                    } else {
+                        msg = "FAILED IT";
+
+                    }
+
+                    // To update UI, should be executed in the main thread
+                    String finalLat = lat;
+                    String finalLng = lng;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            // 更新UI或其他操作
-                            Toast.makeText(RoomManagement.this, response, Toast.LENGTH_SHORT).show();
+                            // Update
+                            String locStr = "Location: " + finalLat + ", " + finalLng;
+                            TextView locVisual = findViewById(R.id.avail_text);
+                            locVisual.setText(locStr);
+
+//                            Toast.makeText(RoomManagement.this, finalLat, Toast.LENGTH_SHORT).show();
                         }
                     });
 
                 } catch (IOException e) {
-                    // 处理异常
+                    // Handle Exception
+
                 }
             }
         }).start();
-//
-//        try {
-//            String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-//                    address
-//                    + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
-//
-//            URL url = new URL(query);
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("GET");
-//
-//            // timeout checking
-//            connection.setConnectTimeout(5000);
-//            connection.setReadTimeout(5000);
-//
-//            // Retrieve Response Status Code
-//            int responseCode = connection.getResponseCode();
-//
-//            if (responseCode == HttpURLConnection.HTTP_OK) {
-//                InputStream inputStream = connection.getInputStream();
-//
-//                Reader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
-//                StringBuilder sb = new StringBuilder();
-//                for (int c; (c = in.read()) >= 0; ) {
-//                    sb.append((char) c);
-//                }
-//                String response = sb.toString();
-//
-//                // Json Parser
-//                JsonElement jsonElement = JsonParser.parseString(response);
-//
-////                if (jsonElement.isJsonObject()) {
-////                    JsonObject jsonObject = jsonElement.getAsJsonObject();
-////
-////                    // 从JsonObject中获取特定键的值
-////                    JsonArray results = jsonObject.getAsJsonArray("results");
-////                    JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
-////                    String lat = location.getAsJsonObject().get("lat").getAsString();
-////                    String lng = location.getAsJsonObject().get("lng").getAsString();
-////
-////                    // 现在你可以使用name和age变量
-////                    Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
-////                    Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
-////
-////                }
-//                Toast.makeText(this, "Finished", Toast.LENGTH_SHORT).show();
-////
-////                return Decoder.rootDecode((JSONObject) parser.parse(response));
-//
-//                // TODO
-//                // 注意：你需要在主线程之外处理UI操作
-//            } else {
-//                // Handle Error
-//                Toast.makeText(this, "Request Failed", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            connection.disconnect();
-//        } catch (IOException e) {
-//            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-//        }
     }
 
     public void createEndpoint(View view){
