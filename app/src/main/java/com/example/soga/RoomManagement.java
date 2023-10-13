@@ -86,13 +86,6 @@ public class RoomManagement extends AppCompatActivity {
                         JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
                         lat = location.getAsJsonObject().get("lat").getAsString();
                         lng = location.getAsJsonObject().get("lng").getAsString();
-//
-//                    // 现在你可以使用name和age变量
-//                    Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
-                        msg = "GET IT ";
-                    } else {
-                        msg = "FAILED IT";
 
                     }
 
@@ -103,16 +96,16 @@ public class RoomManagement extends AppCompatActivity {
                         @Override
                         public void run() {
                             // Update
-                            String locStr = "Location: " + finalLat + ", " + finalLng;
+                            String locStr = "Location:" + finalLat + "," + finalLng;
                             TextView locVisual = findViewById(R.id.avail_text);
                             locVisual.setText(locStr);
 
-//                            Toast.makeText(RoomManagement.this, finalLat, Toast.LENGTH_SHORT).show();
                         }
                     });
 
                 } catch (IOException e) {
                     // Handle Exception
+                    Toast.makeText(RoomManagement.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -126,13 +119,29 @@ public class RoomManagement extends AppCompatActivity {
         Spinner spinner = findViewById(R.id.end_task);
         String task = spinner.getSelectedItem().toString();
 
+        TextView locStrView = findViewById(R.id.avail_text);
+        String locStr = locStrView.getText().toString();
+        String lat = "";
+        String lng = "";
+        if (locStr.equals("No Location Yet")){
+            // No location specified
+            Toast.makeText(this, "Please specify your location", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            String[] cord = locStr.split(":", 2)[1].split(",", 2);
+            lat = cord[0];
+            lng = cord[1];
+        }
+
+        Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
+
         // Create New Card
         CardView newCard = new CardView(getApplicationContext());
         newCard.setLayoutParams(new CardView.LayoutParams(
                 CardView.LayoutParams.MATCH_PARENT,
                 CardView.LayoutParams.WRAP_CONTENT
         ));
-
 
         newCard.setCardElevation(4);
 
@@ -143,7 +152,9 @@ public class RoomManagement extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
-        textView.setText(task);
+
+        String cardTxt = " Location: " + lat + ", " + lng + "      " + task;
+        textView.setText(cardTxt);
         textView.setPadding(16, 16, 16, 16);
 
         // Add TextView To CardView
