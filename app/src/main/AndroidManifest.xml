@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -27,7 +27,7 @@
                 https://developers.google.com/maps/documentation/android-sdk/get-api-key
 
              Once you have your API key (it starts with "AIza"), define a new property in your
-             project's ielocal.properts file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
              "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
         -->
         <meta-data
@@ -40,7 +40,10 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".Login"
-            android:exported="true"></activity>
+            android:exported="true">
+
+
+        </activity>
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false"
