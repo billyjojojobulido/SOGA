@@ -12,12 +12,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 
 public class RoomManagement extends AppCompatActivity {
 
@@ -56,7 +67,33 @@ public class RoomManagement extends AppCompatActivity {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
 
-                
+                Reader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+                StringBuilder sb = new StringBuilder();
+                for (int c; (c = in.read()) >= 0; ) {
+                    sb.append((char) c);
+                }
+                String response = sb.toString();
+
+                // Json Parser
+                JsonElement jsonElement = JsonParser.parseString(response);
+
+//                if (jsonElement.isJsonObject()) {
+//                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+//
+//                    // 从JsonObject中获取特定键的值
+//                    JsonArray results = jsonObject.getAsJsonArray("results");
+//                    JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
+//                    String lat = location.getAsJsonObject().get("lat").getAsString();
+//                    String lng = location.getAsJsonObject().get("lng").getAsString();
+//
+//                    // 现在你可以使用name和age变量
+//                    Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
+//
+//                }
+                Toast.makeText(this, "Finished", Toast.LENGTH_SHORT).show();
+//
+//                return Decoder.rootDecode((JSONObject) parser.parse(response));
 
                 // TODO
                 // 注意：你需要在主线程之外处理UI操作
