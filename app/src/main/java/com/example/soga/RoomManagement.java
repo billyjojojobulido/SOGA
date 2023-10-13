@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +25,11 @@ public class RoomManagement extends AppCompatActivity {
     public void createEndpoint(View view){
         LinearLayout cardContainer = findViewById(R.id.card_layout);
 
+        // Task Selected
+        Spinner spinner = findViewById(R.id.end_task);
+        String task = spinner.getSelectedItem().toString();
 
-        EditText roomName = findViewById(R.id.room_name);
-        EditText roomCapacity = findViewById(R.id.room_capacity);
-
-// 创建新的CardView
+        // Create New Card
         CardView newCard = new CardView(getApplicationContext());
         newCard.setLayoutParams(new CardView.LayoutParams(
                 CardView.LayoutParams.MATCH_PARENT,
@@ -44,16 +45,16 @@ public class RoomManagement extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
-        textView.setText("新的卡片视图");
+        textView.setText(task);
         textView.setPadding(16, 16, 16, 16);
 
-        // 将TextView添加到CardView中
+        // Add TextView To CardView
         newCard.addView(textView);
 
-        // 将新的CardView添加到容器中
+        // Add new CardView to Container
         cardContainer.addView(newCard);
 
-        Toast.makeText(this, "HAHAHAHAH", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "HAHAHAHAH", Toast.LENGTH_SHORT).show();
 
     }
 
