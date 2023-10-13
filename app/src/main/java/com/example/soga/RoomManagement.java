@@ -48,64 +48,104 @@ public class RoomManagement extends AppCompatActivity {
             return;
         }
 
-        try {
-            String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                    address
-                    + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+//                    // 在这里执行网络请求
+//                    // 例如，使用HttpURLConnection或者第三方网络请求库
+//                    // 这里的网络请求代码应该在后台线程执行
+                    String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+                        address
+                        + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
+                    URL url = new URL(query);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
 
-            URL url = new URL(query);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+                    int responseCode = connection.getResponseCode();
 
-            // timeout checking
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+                    Reader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+                    StringBuilder sb = new StringBuilder();
+                    for (int c; (c = in.read()) >= 0; ) {
+                        sb.append((char) c);
+                    }
+                    String response = sb.toString();
 
-            // Retrieve Response Status Code
-            int responseCode = connection.getResponseCode();
+                    connection.disconnect();
+//
+//                    // 如果需要更新UI，使用Handler或其他机制来在主线程中执行
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 更新UI或其他操作
+                            Toast.makeText(RoomManagement.this, response, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = connection.getInputStream();
-
-                Reader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
-                StringBuilder sb = new StringBuilder();
-                for (int c; (c = in.read()) >= 0; ) {
-                    sb.append((char) c);
+                } catch (IOException e) {
+                    // 处理异常
                 }
-                String response = sb.toString();
-
-                // Json Parser
-                JsonElement jsonElement = JsonParser.parseString(response);
-
-//                if (jsonElement.isJsonObject()) {
-//                    JsonObject jsonObject = jsonElement.getAsJsonObject();
-//
-//                    // 从JsonObject中获取特定键的值
-//                    JsonArray results = jsonObject.getAsJsonArray("results");
-//                    JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
-//                    String lat = location.getAsJsonObject().get("lat").getAsString();
-//                    String lng = location.getAsJsonObject().get("lng").getAsString();
-//
-//                    // 现在你可以使用name和age变量
-//                    Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
-//
-//                }
-                Toast.makeText(this, "Finished", Toast.LENGTH_SHORT).show();
-//
-//                return Decoder.rootDecode((JSONObject) parser.parse(response));
-
-                // TODO
-                // 注意：你需要在主线程之外处理UI操作
-            } else {
-                // Handle Error
-                Toast.makeText(this, "Request Failed", Toast.LENGTH_SHORT).show();
             }
-
-            connection.disconnect();
-        } catch (IOException e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
+        }).start();
+//
+//        try {
+//            String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+//                    address
+//                    + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
+//
+//            URL url = new URL(query);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//
+//            // timeout checking
+//            connection.setConnectTimeout(5000);
+//            connection.setReadTimeout(5000);
+//
+//            // Retrieve Response Status Code
+//            int responseCode = connection.getResponseCode();
+//
+//            if (responseCode == HttpURLConnection.HTTP_OK) {
+//                InputStream inputStream = connection.getInputStream();
+//
+//                Reader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+//                StringBuilder sb = new StringBuilder();
+//                for (int c; (c = in.read()) >= 0; ) {
+//                    sb.append((char) c);
+//                }
+//                String response = sb.toString();
+//
+//                // Json Parser
+//                JsonElement jsonElement = JsonParser.parseString(response);
+//
+////                if (jsonElement.isJsonObject()) {
+////                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+////
+////                    // 从JsonObject中获取特定键的值
+////                    JsonArray results = jsonObject.getAsJsonArray("results");
+////                    JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
+////                    String lat = location.getAsJsonObject().get("lat").getAsString();
+////                    String lng = location.getAsJsonObject().get("lng").getAsString();
+////
+////                    // 现在你可以使用name和age变量
+////                    Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
+////                    Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
+////
+////                }
+//                Toast.makeText(this, "Finished", Toast.LENGTH_SHORT).show();
+////
+////                return Decoder.rootDecode((JSONObject) parser.parse(response));
+//
+//                // TODO
+//                // 注意：你需要在主线程之外处理UI操作
+//            } else {
+//                // Handle Error
+//                Toast.makeText(this, "Request Failed", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            connection.disconnect();
+//        } catch (IOException e) {
+//            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public void createEndpoint(View view){
