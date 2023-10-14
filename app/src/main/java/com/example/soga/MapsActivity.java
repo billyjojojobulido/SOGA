@@ -115,7 +115,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
-
     }
 
 
