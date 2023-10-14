@@ -20,6 +20,9 @@
         android:theme="@style/Theme.SOGA"
         tools:targetApi="31">
         <activity
+            android:name=".RoomManagement"
+            android:exported="false" />
+        <activity
             android:name=".JumpActivity"
             android:exported="false" />
         <!--
