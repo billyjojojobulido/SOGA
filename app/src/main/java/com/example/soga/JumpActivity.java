@@ -28,7 +28,6 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private int jumpCount = 0;
     TextView myEditText;
     private ProgressBar progressBar;
-    private Button start;
     private int realValue = 0;
     private boolean flag = false;
     Button finish;
