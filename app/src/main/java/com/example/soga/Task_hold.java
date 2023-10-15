@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,16 +25,17 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     private boolean isTimeRunning = false;
 
     private Button button_test;
+    private int stabilityCheckCount = 0; // Counter for stability checks
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         button_test = findViewById(R.id.button_test);
-        button_test.setText("Stating running");
+        button_test.setText("Start testing"+isTimeRunning);
 
-
-
+        Log.d("DEBUG", "isTimeRunning value: " + isTimeRunning);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -61,15 +63,18 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-
+            button_test.setText(" :"+x+" "+y+" "+z);
             // Threshold for detecting stability (near-zero angular velocity)
-            float stabilityThreshold = 5f;
+            float stabilityThreshold = 0.5f;
+            isStable = Math.abs(x) < stabilityThreshold && Math.abs(y) < stabilityThreshold && Math.abs(z) < stabilityThreshold;
 
             // Assuming that if the device is stable and the z value is close to 0, the device is facing up.
             isFacingUpStable = isStable && Math.abs(z) < stabilityThreshold;
-
+            button_test.setText(" :"+isStable+" "+isFacingUpStable);
             if (isFacingUpStable) {
+                button_test.setText("entering start()"+isTimeRunning);
                 if (!isTimeRunning){
+
                     start();
                 }
 
@@ -83,28 +88,48 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     }
 
     private void start(){
+        Log.d("DEBUG", "start() called - isTimeRunning before: " + isTimeRunning);
+
+        if (isTimeRunning) return; // Prevent multiple calls
+
         isTimeRunning = true;
+        Log.d("DEBUG", "start() called - isTimeRunning after: " + isTimeRunning);
 
         button_test.setText("staring to check......");
 
         stabilityRunnable = new Runnable() {
             @Override
             public void run() {
-                // Device has remained stable for 10 seconds
-                isFacingUpStable = true;
-                // Handle the event here, e.g., show a notification or update the UI
-                button_test.setText("Stable and Facing up");
+                if (isFacingUpStable) {
+                    stabilityCheckCount++;
+                    if (stabilityCheckCount == 10) {
+                        button_test.setText("Stable and Facing up");
+                    } else {
+                        // Continue checking
+                        stabilityHandler.postDelayed(stabilityRunnable, 1000);
+                    }
+                }else{
+                    // Device is not stable, reset the countdown
+                    stabilityCheckCount = 0;
+                    pause();
+                }
+
             }
         };
-        stabilityHandler.postDelayed(stabilityRunnable, 10000); // 10 seconds
+        stabilityHandler.postDelayed(stabilityRunnable, 1000); // 10 seconds
 
     }
 
 
     private void pause(){
+        if (!isTimeRunning) return; // Prevent multiple calls
+
         isTimeRunning = false;
+        stabilityCheckCount = 0; // Reset the stability check counter
+// 1. Unregister the sensor listener
+        sensorManager.unregisterListener(this);
         stabilityHandler.removeCallbacks(stabilityRunnable);
-        button_test.setText("Now not stable");
+        button_test.setText("Now not stable and stop");
 
 
     }
