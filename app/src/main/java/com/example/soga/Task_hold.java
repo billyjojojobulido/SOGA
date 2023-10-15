@@ -33,9 +33,9 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         button_test = findViewById(R.id.button_test);
-        button_test.setText("Start testing"+isTimeRunning);
 
-        Log.d("DEBUG", "isTimeRunning value: " + isTimeRunning);
+
+//        Log.d("DEBUG", "isTimeRunning value: " + isTimeRunning);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -63,18 +63,18 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            button_test.setText(" :"+x+" "+y+" "+z);
+
             // Threshold for detecting stability (near-zero angular velocity)
             float stabilityThreshold = 0.5f;
             isStable = Math.abs(x) < stabilityThreshold && Math.abs(y) < stabilityThreshold && Math.abs(z) < stabilityThreshold;
 
             // Assuming that if the device is stable and the z value is close to 0, the device is facing up.
             isFacingUpStable = isStable && Math.abs(z) < stabilityThreshold;
-            button_test.setText(" :"+isStable+" "+isFacingUpStable);
-            if (isFacingUpStable) {
-                button_test.setText("entering start()"+isTimeRunning);
-                if (!isTimeRunning){
 
+            if (isFacingUpStable) {
+
+                if (!isTimeRunning){
+                    button_test.setText("Checking");
                     start();
                 }
 
@@ -87,23 +87,29 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
         }
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
     private void start(){
-        Log.d("DEBUG", "start() called - isTimeRunning before: " + isTimeRunning);
+//        Log.d("DEBUG", "start() called - isTimeRunning before: " + isTimeRunning);
 
         if (isTimeRunning) return; // Prevent multiple calls
 
         isTimeRunning = true;
-        Log.d("DEBUG", "start() called - isTimeRunning after: " + isTimeRunning);
+//        Log.d("DEBUG", "start() called - isTimeRunning after: " + isTimeRunning);
 
-        button_test.setText("staring to check......");
+
 
         stabilityRunnable = new Runnable() {
             @Override
             public void run() {
                 if (isFacingUpStable) {
                     stabilityCheckCount++;
-                    if (stabilityCheckCount == 10) {
+                    if (stabilityCheckCount == 15) {
                         button_test.setText("Stable and Facing up");
+                        finish();
                     } else {
                         // Continue checking
                         stabilityHandler.postDelayed(stabilityRunnable, 1000);
@@ -134,11 +140,15 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
 
     }
 
-
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not used in this example
+    public void finish(){
+        sensorManager.unregisterListener(this);
+        stabilityHandler.removeCallbacks(stabilityRunnable);
+        button_test.setText("finished");
     }
+
+
+
+
+
 }
 
