@@ -1,7 +1,9 @@
 package com.example.soga;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,7 +16,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Task_hold extends AppCompatActivity implements SensorEventListener {
+public class HoldActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor gyroscope;
@@ -31,7 +33,7 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_hold);
         button_test = findViewById(R.id.hold_btn);
 
 
@@ -148,7 +150,10 @@ public class Task_hold extends AppCompatActivity implements SensorEventListener 
     }
 
 
+    public void hold(View view){
+        startActivities(new Intent[]{new Intent(this, HoldActivity.class)});
 
+    }
 
 
 }
