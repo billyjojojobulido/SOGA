@@ -76,16 +76,24 @@ public class RoomManagement extends AppCompatActivity {
 
                     // Json Parser
                     JsonElement jsonElement = JsonParser.parseString(response);
+//                    Toast.makeText(RoomManagement.this, response.toString(), Toast.LENGTH_SHORT).show();
                     String lat = "";
                     String lng = "";
 
                     if (jsonElement.isJsonObject()) {
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
+//                        String status = jsonObject.get("status").getAsString();
+//                        Toast.makeText(RoomManagement.this, status, Toast.LENGTH_SHORT).show();
 
                         JsonArray results = jsonObject.get("results").getAsJsonArray();
-                        JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
-                        lat = location.getAsJsonObject().get("lat").getAsString();
-                        lng = location.getAsJsonObject().get("lng").getAsString();
+                        if (!results.isEmpty()) {
+                            JsonElement location = results.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location");
+                            lat = location.getAsJsonObject().get("lat").getAsString();
+                            lng = location.getAsJsonObject().get("lng").getAsString();
+                        } else {
+                            lat = "0";
+                            lng = "0";
+                        }
 
                     }
 
@@ -95,9 +103,13 @@ public class RoomManagement extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            // Update
-                            String locStr = "Location:" + finalLat + "," + finalLng;
                             TextView locVisual = findViewById(R.id.avail_text);
+                            String locStr = "Location:" + finalLat + "," + finalLng;
+
+                            if (finalLat.equals("0") && finalLng.equals("0")){
+                                locStr = "Invalid Location.";
+                            }
+                            // Update
                             locVisual.setText(locStr);
 
                         }

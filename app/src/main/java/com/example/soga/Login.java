@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Toast.makeText(Login.this,"Login successfully!",Toast.LENGTH_SHORT).show();
                         // handle
-                        startActivities(new Intent[]{new Intent(this, MapsActivity.class)});
+                        startActivities(new Intent[]{new Intent(this, RoomManagement.class)});
                     } else {
                         // failed
                         // determine the reason of failure
