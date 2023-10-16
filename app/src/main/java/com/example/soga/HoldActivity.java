@@ -29,6 +29,8 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
     private Button button_test;
     private int stabilityCheckCount = 0; // Counter for stability checks
 
+    private boolean flag = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,31 +62,31 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (flag){
+            if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                float x = event.values[0];
+                float y = event.values[1];
+                float z = event.values[2];
 
-        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
+                // Threshold for detecting stability (near-zero angular velocity)
+                float stabilityThreshold = 0.5f;
+                isStable = Math.abs(x) < stabilityThreshold && Math.abs(y) < stabilityThreshold && Math.abs(z) < stabilityThreshold;
 
-            // Threshold for detecting stability (near-zero angular velocity)
-            float stabilityThreshold = 0.5f;
-            isStable = Math.abs(x) < stabilityThreshold && Math.abs(y) < stabilityThreshold && Math.abs(z) < stabilityThreshold;
+                // Assuming that if the device is stable and the z value is close to 0, the device is facing up.
+                isFacingUpStable = isStable && Math.abs(z) < stabilityThreshold;
 
-            // Assuming that if the device is stable and the z value is close to 0, the device is facing up.
-            isFacingUpStable = isStable && Math.abs(z) < stabilityThreshold;
+                if (isFacingUpStable) {
 
-            if (isFacingUpStable) {
+                    if (!isTimeRunning) {
+                        button_test.setText("Checking");
+                        start();
+                    }
 
-                if (!isTimeRunning){
-                    button_test.setText("Checking");
-                    start();
+                } else {
+                    pause();
+                    // Device is not facing up or is not stable
                 }
-
-            } else {
-                pause();
-                // Device is not facing up or is not stable
             }
-
 
         }
     }
@@ -131,12 +133,9 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
     private void pause(){
         if (!isTimeRunning) return; // Prevent multiple calls
-
+        flag = false;
         isTimeRunning = false;
         stabilityCheckCount = 0; // Reset the stability check counter
-// 1. Unregister the sensor listener
-        sensorManager.unregisterListener(this);
-        stabilityHandler.removeCallbacks(stabilityRunnable);
         button_test.setText("Now not stable and stop");
 
 
@@ -144,16 +143,24 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
     public void finish(){
         isTimeRunning = false;
+        flag = false;
         sensorManager.unregisterListener(this);
         stabilityHandler.removeCallbacks(stabilityRunnable);
         button_test.setText("finished");
     }
 
+    public void onButtonClick(View view) {
+//        progressBar = findViewById(R.id.progressBar);
+        //progressBar.setVisibility(View.VISIBLE);
 
-    public void hold(View view){
-        startActivities(new Intent[]{new Intent(this, HoldActivity.class)});
-
+        flag = true;
+//        updateProgressBar(progressBar);
     }
+
+
+//    public void hold(View view){
+//        startActivities(new Intent[]{new Intent(this, HoldActivity.class)});
+//    }
 
 
 }
