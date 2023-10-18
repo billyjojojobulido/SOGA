@@ -56,7 +56,14 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
                 float angleZ = angularSpeedZ * timeDelta / 1e9f;
 
 
-                totalRotation += Math.toDegrees(Math.sqrt(angleX * angleX + angleY * angleY + angleZ * angleZ));
+                if (angularSpeedZ > 0) {
+
+                    totalRotation += Math.toDegrees(Math.sqrt(angleX * angleX + angleY * angleY + angleZ * angleZ));
+                } else {
+
+                    totalRotation -= Math.toDegrees(Math.sqrt(angleX * angleX + angleY * angleY + angleZ * angleZ));
+                }
+
                 if(totalRotation>= 360.0f){
                     //TODO  Implement further
                 }
