@@ -24,6 +24,8 @@ public class StepsActivity extends AppCompatActivity {
     private TextView step_text;
     private int steps;
     private static final int MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1;
+    private int initialStepCount = 0;
+    private int appSteps = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +107,14 @@ public class StepsActivity extends AppCompatActivity {
             public void onSensorChanged(SensorEvent event) {
                 steps = (int) event.values[0];
                 // Handle step count update
+                if (initialStepCount == 0) {
+                    // First sensor event, store the initial step count
+                    initialStepCount = steps;
+                }else{
+                    appSteps = steps - initialStepCount;
+                }
 
-                step_text.setText(String.valueOf(steps));
+                step_text.setText(String.valueOf(appSteps));
             }
 
             @Override
