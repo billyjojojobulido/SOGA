@@ -137,14 +137,12 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
         isTimeRunning = false;
         stabilityCheckCount = 0; // Reset the stability check counter
         button_test.setText("Now not stable and stop");
-
-
     }
 
     public void finish(){
         isTimeRunning = false;
         flag = false;
-        sensorManager.unregisterListener(this);
+        onPause();
         stabilityHandler.removeCallbacks(stabilityRunnable);
         button_test.setText("finished");
     }
