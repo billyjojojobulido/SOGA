@@ -9,6 +9,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class TurnAroundTask extends AppCompatActivity implements SensorEventListener{
@@ -19,6 +21,9 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
 
     private long lastTimestamp = 0;
     private float totalRotation = 0.0f;
+    private boolean isCalculatingRotation = false;
+    private Button startButton;
+    private Button finishButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,14 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
 
         gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
+        startButton = findViewById(R.id.turnAroundStart);
+        finishButton = findViewById(R.id.finishBtn);
+
+
+    }
+    public void startTurnAround(View view){
+        isCalculatingRotation = true;
+        startButton.setVisibility(View.INVISIBLE);
     }
     @Override
     protected void onResume() {
@@ -41,7 +54,7 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            if (lastTimestamp != 0) {
+            if (lastTimestamp != 0 && isCalculatingRotation) {
 
                 long timeDelta = event.timestamp - lastTimestamp;
 
@@ -64,8 +77,11 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
                     totalRotation -= Math.toDegrees(Math.sqrt(angleX * angleX + angleY * angleY + angleZ * angleZ));
                 }
 
-                if(totalRotation>= 360.0f){
+                if(Math.abs(totalRotation)>= 350.0f){
                     //TODO  Implement further
+                    sensorManager.unregisterListener(this);
+                    finishButton.setVisibility(View.VISIBLE);
+
                 }
                 xResultTextView.setText(""+totalRotation);
             }
