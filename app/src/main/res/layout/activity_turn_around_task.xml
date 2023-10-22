@@ -17,9 +17,12 @@
 
     <TextView
         android:id="@+id/turnAroundTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Turn around"
+        android:layout_width="249dp"
+        android:layout_height="61dp"
+        android:text="Turn Around Task"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
