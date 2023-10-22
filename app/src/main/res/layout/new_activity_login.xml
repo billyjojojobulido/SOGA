@@ -59,14 +59,13 @@
             android:textSize="32sp"
             android:textStyle="bold"/>
 
-        //text
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please login with your username and password"
+            android:text="Please login with your email and password"
             android:alpha="0.8"/>
 
-        //login
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="30dp"/>
@@ -82,7 +81,7 @@
             android:inputType="textEmailAddress"
             android:drawableEnd="@drawable/done_icon"/>
 
-        //password
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="20dp"/>
@@ -140,7 +139,3 @@
 </RelativeLayout>
 
 
-
-
-
-</RelativeLayout>
