@@ -80,7 +80,7 @@
             android:id="@+id/signInEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/done_icon"
+            android:drawableEnd="@drawable/baseline_email_24"
             android:inputType="textEmailAddress" />
 
 
