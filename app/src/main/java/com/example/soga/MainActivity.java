@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null) {//if the user logged in, just jump to map page
 //            intent = new Intent(this, Register.class);
-            intent = new Intent(this, MapsActivity.class);
+            intent = new Intent(this, Login.class);
 
         } else {// if not,jump to log in page
             intent = new Intent(this, Login.class);
