@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="endpoint_tasks">
+        <item>Keep Horizontal(10s)</item>
+        <item>Jump 5 Times</item>
+        <item>Turn A Circle</item>
+    </string-array>
+
+</resources>
