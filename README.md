@@ -36,28 +36,23 @@ A **scavenger hunt** is a recreational activity or game in which participants, o
 ## Main Features
 
 - User Management (Firebase)
-  - Registration 
+  - Registration
   - Login/out
-  - Forget Password
 - Gaming
   - Room Management
-    - Create & Cancel
+    - Create
     - Join (room code)
   - Game Setup
     - Tasks Managment
       - Positioning
       - Small Games
-      - Evidences Editing (Text & Image [only if necessary])
+      - Evidences Editing
     - Destination (Final Task)
       - Find on map (Google Map API) 
   - Player
-    - Location-based Progress Check
-      - Every 5 mins, check if the player is getting closer to the current target, if so, message (“Good job”), else, (“Oops...”)
     - Constraint on
-      - Timeout (Quit or Keep failing)
       - Hints (depends on further design)
         - Naive approach: give out the address
-        - Fancier approach: take out a few letters from the address
     - Arrival Check
       - Button on the Screen
       - Disance check
@@ -66,4 +61,3 @@ A **scavenger hunt** is a recreational activity or game in which participants, o
     - Leaderboard
       - algorithm-based 
       - show steps
-      - Commemorative Photos (only if necessary)
