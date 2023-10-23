@@ -20,7 +20,8 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+//        setContentView(R.layout.activity_login);
+        setContentView(R.layout.new_activity_login);
     }
     public void openRegister(View view){
         startActivities(new Intent[]{new Intent(this, Register.class)});

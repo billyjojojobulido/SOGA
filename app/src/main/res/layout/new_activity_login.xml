@@ -75,11 +75,13 @@
             android:text="Email Address"
             android:alpha="0.8"
             android:textStyle="bold"/>
+
         <EditText
+            android:id="@+id/signInEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:drawableEnd="@drawable/done_icon"/>
+            android:drawableEnd="@drawable/done_icon"
+            android:inputType="textEmailAddress" />
 
 
         <View
@@ -91,11 +93,13 @@
             android:text="Password"
             android:alpha="0.8"
             android:textStyle="bold"/>
+
         <EditText
+            android:id="@+id/signInPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:drawableEnd="@drawable/baseline_password_24" />
+            android:drawableEnd="@drawable/baseline_password_24"
+            android:inputType="textPassword" />
         
         <RelativeLayout
             android:layout_width="match_parent"
@@ -117,11 +121,13 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="10dp"/>
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:onClick="signIn"
             android:text="Login"
-            app:cornerRadius="32dp"/>
+            app:cornerRadius="32dp" />
         <View
             android:layout_width="wrap_content"
             android:layout_height="10dp"/>

@@ -33,9 +33,9 @@
         <activity
             android:name=".HoldActivity"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true" />-->
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
