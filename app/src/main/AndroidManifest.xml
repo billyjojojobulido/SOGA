@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-<!--    <uses-permission android:name="android.permission.INTERNET" />-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<!--    <uses-permission android:name="android.permission.BLUETOOTH" />-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-feature
+        android:name="android.hardware.sensor.gyroscope"
+        android:required="true" />
+
+    <uses-feature android:name="android.hardware.sensor.accelerometer" />
 
     <application
         android:allowBackup="true"
@@ -21,8 +24,18 @@
         android:theme="@style/Theme.SOGA"
         tools:targetApi="31">
         <activity
-            android:name=".TurnAroundTask"
+            android:name=".RoomManagement"
+            android:exported="true" />
+        <activity
+            android:name=".JumpActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".HoldActivity"
+            android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".MainActivity"-->
+        <!--            android:exported="true" />-->
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -44,18 +57,19 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".Login"
-            android:exported="true"></activity>
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login" />
+            android:exported="true">
+
+
+        </activity>
+
         <activity
             android:name=".Register"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            tools:ignore="DuplicateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
