@@ -1,10 +1,14 @@
 package com.example.soga;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -12,25 +16,31 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ktx.Firebase;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RoomManagement extends AppCompatActivity {
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +48,8 @@ public class RoomManagement extends AppCompatActivity {
         setContentView(R.layout.activity_room_management);
     }
 
-    public void checkLocation(View view){
+
+    public void checkLocation(View view) {
 
         EditText addressInput = findViewById(R.id.location_input);
         String address = addressInput.getText().toString();
@@ -56,8 +67,8 @@ public class RoomManagement extends AppCompatActivity {
             public void run() {
                 try {
                     String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                        address
-                        + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
+                            address
+                            + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
                     URL url = new URL(query);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
@@ -106,7 +117,7 @@ public class RoomManagement extends AppCompatActivity {
                             TextView locVisual = findViewById(R.id.avail_text);
                             String locStr = "Location:" + finalLat + "," + finalLng;
 
-                            if (finalLat.equals("0") && finalLng.equals("0")){
+                            if (finalLat.equals("0") && finalLng.equals("0")) {
                                 locStr = "Invalid Location.";
                             }
                             // Update
@@ -124,7 +135,7 @@ public class RoomManagement extends AppCompatActivity {
         }).start();
     }
 
-    public void createEndpoint(View view){
+    public void createEndpoint(View view) {
         LinearLayout cardContainer = findViewById(R.id.card_layout);
 
         // Task Selected
@@ -135,7 +146,7 @@ public class RoomManagement extends AppCompatActivity {
         String locStr = locStrView.getText().toString();
         String lat = "";
         String lng = "";
-        if (locStr.equals("No Location Yet")){
+        if (locStr.equals("No Location Yet")) {
             // No location specified
             Toast.makeText(this, "Please specify your location", Toast.LENGTH_SHORT).show();
             return;
@@ -175,6 +186,54 @@ public class RoomManagement extends AppCompatActivity {
         // Add new CardView to Container
         cardContainer.addView(newCard);
 
+    }
+
+    public void createRoom(View view) {
+
+        // Create a new user with a first and last name
+        Map<String, Object> room = new HashMap<>();
+
+        room.put("name", "Hunter Union");
+        room.put("capacity", 6);
+
+        // Create an Embedded ArrayList for endpoints
+        ArrayList<HashMap<String, Object>> endpointsList = new ArrayList<>();
+
+        // First
+        HashMap<String, Object> endpoint1 = new HashMap<>();
+        endpoint1.put("task", 1);
+        endpoint1.put("lat", 30.101010);
+        endpoint1.put("lng", 128.12121);
+        endpoint1.put("hint", "My home");
+        endpointsList.add(endpoint1);
+
+        // Second
+        HashMap<String, Object> endpoint2 = new HashMap<>();
+        endpoint2.put("task", 2);
+        endpoint2.put("lat", -30.101010);
+        endpoint2.put("lng", -128.12121);
+        endpoint2.put("hint", "My Second home");
+        endpointsList.add(endpoint2);
+
+        room.put("endpoints", endpointsList);
+
+
+// Add a new document with a generated ID
+        db.collection("rooms")
+                .add(room).
+                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(RoomManagement.this,"Success", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RoomManagement.this,"Failed", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
     }
 
 }
