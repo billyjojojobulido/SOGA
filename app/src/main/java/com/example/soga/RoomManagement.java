@@ -149,6 +149,9 @@ public class RoomManagement extends AppCompatActivity {
         EditText hintEdit = findViewById(R.id.location_hint);
         String hintStr = hintEdit.getText().toString();
 
+        EditText addressInput = findViewById(R.id.location_input);
+        String address = addressInput.getText().toString();
+
         String lat = "";
         String lng = "";
         if (locStr.equals("No Location Yet")) {
@@ -177,7 +180,7 @@ public class RoomManagement extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        String cardTxt = " Location: " + locStr + "      " + task;
+        String cardTxt = " Location: " + address + "      " + task;
         textView.setText(cardTxt);
         textView.setPadding(16, 16, 16, 16);
 
@@ -188,6 +191,7 @@ public class RoomManagement extends AppCompatActivity {
         endpoint.put("lat", lat);
         endpoint.put("lng", lng);
         endpoint.put("hint", hintStr);
+        endpoint.put("answer", address);
         endpointsList.add(endpoint);
 
         // Add TextView To CardView
