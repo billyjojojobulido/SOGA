@@ -145,6 +145,10 @@ public class RoomManagement extends AppCompatActivity {
 
         TextView locStrView = findViewById(R.id.avail_text);
         String locStr = locStrView.getText().toString();
+
+        EditText hintEdit = findViewById(R.id.location_hint);
+        String hintStr = hintEdit.getText().toString();
+
         String lat = "";
         String lng = "";
         if (locStr.equals("No Location Yet")) {
@@ -156,9 +160,6 @@ public class RoomManagement extends AppCompatActivity {
             lat = cord[0];
             lng = cord[1];
         }
-
-        Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
 
         // Create New Card
         CardView newCard = new CardView(getApplicationContext());
@@ -180,11 +181,13 @@ public class RoomManagement extends AppCompatActivity {
         textView.setText(cardTxt);
         textView.setPadding(16, 16, 16, 16);
 
+
+
         HashMap<String, Object> endpoint = new HashMap<>();
         endpoint.put("task", taskID);
         endpoint.put("lat", lat);
         endpoint.put("lng", lng);
-        endpoint.put("hint", "TODO");
+        endpoint.put("hint", hintStr);
         endpointsList.add(endpoint);
 
         // Add TextView To CardView
@@ -214,7 +217,7 @@ public class RoomManagement extends AppCompatActivity {
         // Create a new user with a first and last name
         Map<String, Object> room = new HashMap<>();
 
-        TextView roomNameView = findViewById(R.id.avail_text); // Room Name
+        EditText roomNameView = findViewById(R.id.room_name); // Room Name
         String roomName = roomNameView.getText().toString();
         int capacity = 6;
         try{
