@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -264,5 +267,24 @@ public class RoomManagement extends AppCompatActivity {
                     }
                 });
     }
+
+    private void showAlertDialog(String code) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Room Created");
+        builder.setMessage("The Room Code is " + code + ".\nPlease share it with your friends so they can join the game.");
+
+        // btn to quite
+        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+
+        // create dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
 }
