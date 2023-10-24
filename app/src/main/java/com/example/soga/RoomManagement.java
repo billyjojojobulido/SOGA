@@ -235,7 +235,6 @@ public class RoomManagement extends AppCompatActivity {
         }
         String code = generateRandomString(CODE_LENGTH);
 
-
         room.put("name", roomName);
         room.put("capacity", capacity);
         room.put("code", code);
