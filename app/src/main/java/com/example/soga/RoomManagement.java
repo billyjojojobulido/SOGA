@@ -256,8 +256,8 @@ public class RoomManagement extends AppCompatActivity {
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(RoomManagement.this,"Success, the code is " + code, Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        showAlertDialog(code);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
