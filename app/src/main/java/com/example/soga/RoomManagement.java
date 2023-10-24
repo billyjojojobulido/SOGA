@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -36,9 +35,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class RoomManagement extends AppCompatActivity {
+
+    protected final int CODE_LENGTH = 6;
+    protected ArrayList<HashMap<String, Object>> endpointsList = new ArrayList<>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -87,14 +90,11 @@ public class RoomManagement extends AppCompatActivity {
 
                     // Json Parser
                     JsonElement jsonElement = JsonParser.parseString(response);
-//                    Toast.makeText(RoomManagement.this, response.toString(), Toast.LENGTH_SHORT).show();
                     String lat = "";
                     String lng = "";
 
                     if (jsonElement.isJsonObject()) {
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
-//                        String status = jsonObject.get("status").getAsString();
-//                        Toast.makeText(RoomManagement.this, status, Toast.LENGTH_SHORT).show();
 
                         JsonArray results = jsonObject.get("results").getAsJsonArray();
                         if (!results.isEmpty()) {
@@ -141,6 +141,7 @@ public class RoomManagement extends AppCompatActivity {
         // Task Selected
         Spinner spinner = findViewById(R.id.end_task);
         String task = spinner.getSelectedItem().toString();
+        int taskID = spinner.getSelectedItemPosition();
 
         TextView locStrView = findViewById(R.id.avail_text);
         String locStr = locStrView.getText().toString();
@@ -168,7 +169,6 @@ public class RoomManagement extends AppCompatActivity {
 
         newCard.setCardElevation(4);
 
-//        newCard.setCardCornerRadius(8);
         newCard.setCardBackgroundColor(Color.WHITE);
         TextView textView = new TextView(getApplicationContext());
         textView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -176,9 +176,16 @@ public class RoomManagement extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        String cardTxt = " Location: " + lat + ", " + lng + "      " + task;
+        String cardTxt = " Location: " + locStr + "      " + task;
         textView.setText(cardTxt);
         textView.setPadding(16, 16, 16, 16);
+
+        HashMap<String, Object> endpoint = new HashMap<>();
+        endpoint.put("task", taskID);
+        endpoint.put("lat", lat);
+        endpoint.put("lng", lng);
+        endpoint.put("hint", "TODO");
+        endpointsList.add(endpoint);
 
         // Add TextView To CardView
         newCard.addView(textView);
@@ -188,35 +195,51 @@ public class RoomManagement extends AppCompatActivity {
 
     }
 
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            char randomChar = characters.charAt(index);
+            randomString.append(randomChar);
+        }
+
+        return randomString.toString();
+    }
+
     public void createRoom(View view) {
 
         // Create a new user with a first and last name
         Map<String, Object> room = new HashMap<>();
 
-        room.put("name", "Hunter Union");
-        room.put("capacity", 6);
+        TextView roomNameView = findViewById(R.id.avail_text); // Room Name
+        String roomName = roomNameView.getText().toString();
+        int capacity = 6;
+        try{
+            TextView capacityView = findViewById(R.id.room_capacity); // Capacity
+            capacity = Integer.parseInt(capacityView.getText().toString());
+        } catch (Exception e){
+            Toast.makeText(this, "Invalid Capacity, set to Default (6 people)", Toast.LENGTH_SHORT).show();
+        }
 
-        // Create an Embedded ArrayList for endpoints
-        ArrayList<HashMap<String, Object>> endpointsList = new ArrayList<>();
+        // Marshalling the Struct
+        if (roomName.length() == 0){
+            Toast.makeText(this, "Invalid Room Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (endpointsList.size() == 0){
+            Toast.makeText(this, "Locate some Endpoints first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String code = generateRandomString(CODE_LENGTH);
 
-        // First
-        HashMap<String, Object> endpoint1 = new HashMap<>();
-        endpoint1.put("task", 1);
-        endpoint1.put("lat", 30.101010);
-        endpoint1.put("lng", 128.12121);
-        endpoint1.put("hint", "My home");
-        endpointsList.add(endpoint1);
 
-        // Second
-        HashMap<String, Object> endpoint2 = new HashMap<>();
-        endpoint2.put("task", 2);
-        endpoint2.put("lat", -30.101010);
-        endpoint2.put("lng", -128.12121);
-        endpoint2.put("hint", "My Second home");
-        endpointsList.add(endpoint2);
-
+        room.put("name", roomName);
+        room.put("capacity", capacity);
+        room.put("code", code);
         room.put("endpoints", endpointsList);
-
 
         // Add a new document with a generated ID
         db.collection("rooms")
@@ -224,7 +247,7 @@ public class RoomManagement extends AppCompatActivity {
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(RoomManagement.this,"Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RoomManagement.this,"Success, the code is " + code, Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
