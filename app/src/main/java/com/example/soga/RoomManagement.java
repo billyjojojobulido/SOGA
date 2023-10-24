@@ -218,7 +218,7 @@ public class RoomManagement extends AppCompatActivity {
         room.put("endpoints", endpointsList);
 
 
-// Add a new document with a generated ID
+        // Add a new document with a generated ID
         db.collection("rooms")
                 .add(room).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
