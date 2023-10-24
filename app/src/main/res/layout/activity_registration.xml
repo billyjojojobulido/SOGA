@@ -63,25 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.8"
-            android:text="Please enter a username, email and password" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.8"
-            android:text="Username"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/signInEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/person_icon"
-            android:inputType="Username" />
+            android:text="Please enter an Email and password" />
 
         <View
             android:layout_width="wrap_content"

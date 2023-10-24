@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         } else {// if not,jump to log in page
             intent = new Intent(this, Login.class);
         }
-        intent = new Intent(this, HoldActivity.class);
+        intent = new Intent(this, RoomManagement.class);
         startActivity(intent);
         finish();
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
