@@ -16,6 +16,11 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class StepsActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
@@ -26,12 +31,15 @@ public class StepsActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1;
     private int initialStepCount = 0;
     private int appSteps = 0;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
         step_text = findViewById(R.id.stepsCounting);
+
+        db = FirebaseFirestore.getInstance();
 
         // Request the permission
         if (ContextCompat.checkSelfPermission(this, "android.permission.ACTIVITY_RECOGNITION")
@@ -123,6 +131,17 @@ public class StepsActivity extends AppCompatActivity {
             }
         };
     }
+
+    // the username should be the "user" from main acitivity
+    public void storeSteps (String username){
+        Map<String,Object> userSteps = new HashMap<>();
+        userSteps.put("steps", appSteps);
+//        assuming we are using a datacollection named userSteps
+        db.collection("userSteps").document(username).set(userSteps);
+
+
+    }
+
 
 
 }
