@@ -123,6 +123,8 @@ public class StepsActivity extends AppCompatActivity {
                 }
 
                 step_text.setText(String.valueOf(appSteps));
+//                simply for testing using firebase, should see a "userSteps" collection, and the instance is named Test
+//                storeSteps ("Test");
             }
 
             @Override
@@ -132,7 +134,8 @@ public class StepsActivity extends AppCompatActivity {
         };
     }
 
-    // the username should be the "user" from main acitivity
+    // the username should be the "user" from main acitivity,
+    // this method should be called when the user arrives the final destination
     public void storeSteps (String username){
         Map<String,Object> userSteps = new HashMap<>();
         userSteps.put("steps", appSteps);
