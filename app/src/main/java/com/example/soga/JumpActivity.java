@@ -63,7 +63,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener((SensorListener) this);
+        sensorManager.unregisterListener(this);
     }
 
 
@@ -104,6 +104,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         if(jumpCount >= 10) {
 //            flag = false;
             finish.setVisibility(View.VISIBLE);
+            onPause();
         }
     }
 

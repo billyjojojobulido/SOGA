@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,13 +33,18 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
     private boolean flag = false;
 
+    private ProgressBar hold_progress;
+    private TextView hold_textdown;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hold);
         button_test = findViewById(R.id.hold_btn);
-
+        hold_progress = findViewById(R.id.hold_progress);
+        hold_progress.setVisibility(View.INVISIBLE);
+        hold_textdown = findViewById(R.id.holdtextdown);
 
 //        Log.d("DEBUG", "isTimeRunning value: " + isTimeRunning);
 
@@ -79,6 +86,7 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
                     if (!isTimeRunning) {
                         button_test.setText("Checking");
+                        hold_textdown.setText("Almost there!");
                         start();
                     }
 
@@ -111,8 +119,8 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
             public void run() {
                 if (isFacingUpStable) {
                     stabilityCheckCount++;
+                    hold_progress.setProgress(10*stabilityCheckCount);
                     if (stabilityCheckCount == 10) {
-                        button_test.setText("Stable and Facing up");
                         finish();
                     } else {
                         // Continue checking
@@ -136,7 +144,11 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
         flag = false;
         isTimeRunning = false;
         stabilityCheckCount = 0; // Reset the stability check counter
-        button_test.setText("Now not stable and stop");
+        hold_progress.setVisibility(View.INVISIBLE);
+        hold_progress.setProgress(0);
+        button_test.setText("Start again");
+        hold_textdown.setText("Oops, try one more time!");
+
     }
 
     public void finish(){
@@ -145,11 +157,12 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
         onPause();
         stabilityHandler.removeCallbacks(stabilityRunnable);
         button_test.setText("finished");
+        hold_textdown.setText("Congratulations! You made it.");
     }
 
     public void onButtonClick(View view) {
 //        progressBar = findViewById(R.id.progressBar);
-        //progressBar.setVisibility(View.VISIBLE);
+        hold_progress.setVisibility(View.VISIBLE);
 
         flag = true;
 //        updateProgressBar(progressBar);

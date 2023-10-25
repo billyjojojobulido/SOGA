@@ -1,36 +1,52 @@
 package com.example.soga;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 
 public class RoomManagement extends AppCompatActivity {
+
+    protected final int CODE_LENGTH = 6;
+    protected ArrayList<HashMap<String, Object>> endpointsList = new ArrayList<>();
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +54,8 @@ public class RoomManagement extends AppCompatActivity {
         setContentView(R.layout.activity_room_management);
     }
 
-    public void checkLocation(View view){
+
+    public void checkLocation(View view) {
 
         EditText addressInput = findViewById(R.id.location_input);
         String address = addressInput.getText().toString();
@@ -56,8 +73,8 @@ public class RoomManagement extends AppCompatActivity {
             public void run() {
                 try {
                     String query = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                        address
-                        + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
+                            address
+                            + "&key=AIzaSyB_4H-LgBByty7rCuZR4DSagLK6c7y1rYY";
                     URL url = new URL(query);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
@@ -76,14 +93,11 @@ public class RoomManagement extends AppCompatActivity {
 
                     // Json Parser
                     JsonElement jsonElement = JsonParser.parseString(response);
-//                    Toast.makeText(RoomManagement.this, response.toString(), Toast.LENGTH_SHORT).show();
                     String lat = "";
                     String lng = "";
 
                     if (jsonElement.isJsonObject()) {
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
-//                        String status = jsonObject.get("status").getAsString();
-//                        Toast.makeText(RoomManagement.this, status, Toast.LENGTH_SHORT).show();
 
                         JsonArray results = jsonObject.get("results").getAsJsonArray();
                         if (!results.isEmpty()) {
@@ -106,7 +120,7 @@ public class RoomManagement extends AppCompatActivity {
                             TextView locVisual = findViewById(R.id.avail_text);
                             String locStr = "Location:" + finalLat + "," + finalLng;
 
-                            if (finalLat.equals("0") && finalLng.equals("0")){
+                            if (finalLat.equals("0") && finalLng.equals("0")) {
                                 locStr = "Invalid Location.";
                             }
                             // Update
@@ -124,18 +138,26 @@ public class RoomManagement extends AppCompatActivity {
         }).start();
     }
 
-    public void createEndpoint(View view){
+    public void createEndpoint(View view) {
         LinearLayout cardContainer = findViewById(R.id.card_layout);
 
         // Task Selected
         Spinner spinner = findViewById(R.id.end_task);
         String task = spinner.getSelectedItem().toString();
+        int taskID = spinner.getSelectedItemPosition();
 
         TextView locStrView = findViewById(R.id.avail_text);
         String locStr = locStrView.getText().toString();
+
+        EditText hintEdit = findViewById(R.id.location_hint);
+        String hintStr = hintEdit.getText().toString();
+
+        EditText addressInput = findViewById(R.id.location_input);
+        String address = addressInput.getText().toString();
+
         String lat = "";
         String lng = "";
-        if (locStr.equals("No Location Yet")){
+        if (locStr.equals("No Location Yet")) {
             // No location specified
             Toast.makeText(this, "Please specify your location", Toast.LENGTH_SHORT).show();
             return;
@@ -144,9 +166,6 @@ public class RoomManagement extends AppCompatActivity {
             lat = cord[0];
             lng = cord[1];
         }
-
-        Toast.makeText(this, lat, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, lng, Toast.LENGTH_SHORT).show();
 
         // Create New Card
         CardView newCard = new CardView(getApplicationContext());
@@ -157,7 +176,6 @@ public class RoomManagement extends AppCompatActivity {
 
         newCard.setCardElevation(4);
 
-//        newCard.setCardCornerRadius(8);
         newCard.setCardBackgroundColor(Color.WHITE);
         TextView textView = new TextView(getApplicationContext());
         textView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -165,9 +183,19 @@ public class RoomManagement extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        String cardTxt = " Location: " + lat + ", " + lng + "      " + task;
+        String cardTxt = " Location: " + address + "      " + task;
         textView.setText(cardTxt);
         textView.setPadding(16, 16, 16, 16);
+
+
+
+        HashMap<String, Object> endpoint = new HashMap<>();
+        endpoint.put("task", taskID);
+        endpoint.put("lat", lat);
+        endpoint.put("lng", lng);
+        endpoint.put("hint", hintStr);
+        endpoint.put("answer", address);
+        endpointsList.add(endpoint);
 
         // Add TextView To CardView
         newCard.addView(textView);
@@ -176,5 +204,87 @@ public class RoomManagement extends AppCompatActivity {
         cardContainer.addView(newCard);
 
     }
+
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder randomString = new StringBuilder();
+
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            char randomChar = characters.charAt(index);
+            randomString.append(randomChar);
+        }
+
+        return randomString.toString();
+    }
+
+    public void createRoom(View view) {
+
+        // Create a new user with a first and last name
+        Map<String, Object> room = new HashMap<>();
+
+        EditText roomNameView = findViewById(R.id.room_name); // Room Name
+        String roomName = roomNameView.getText().toString();
+        int capacity = 6;
+        try{
+            TextView capacityView = findViewById(R.id.room_capacity); // Capacity
+            capacity = Integer.parseInt(capacityView.getText().toString());
+        } catch (Exception e){
+            Toast.makeText(this, "Invalid Capacity, set to Default (6 people)", Toast.LENGTH_SHORT).show();
+        }
+
+        // Marshalling the Struct
+        if (roomName.length() == 0){
+            Toast.makeText(this, "Invalid Room Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (endpointsList.size() == 0){
+            Toast.makeText(this, "Locate some Endpoints first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String code = generateRandomString(CODE_LENGTH);
+
+        room.put("name", roomName);
+        room.put("capacity", capacity);
+        room.put("code", code);
+        room.put("endpoints", endpointsList);
+
+        // Add a new document with a generated ID
+        db.collection("rooms")
+                .add(room).
+                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        showAlertDialog(code);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RoomManagement.this,"Failed", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+    }
+
+    private void showAlertDialog(String code) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Room Created");
+        builder.setMessage("The Room Code is " + code + ".\nPlease share it with your friends so they can join the game.");
+
+        // btn to quite
+        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+
+        // create dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
 }

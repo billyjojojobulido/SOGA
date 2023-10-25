@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null) {//if the user logged in, just jump to map page
 //            intent = new Intent(this, Register.class);
-            intent = new Intent(this, MapsActivity.class);
+            intent = new Intent(this, Login.class);
 
         } else {// if not,jump to log in page
             intent = new Intent(this, Login.class);
         }
-        intent = new Intent(this, StepsActivity.class);
+        intent = new Intent(this, RoomManagement.class);
         startActivity(intent);
         finish();
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 

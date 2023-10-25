@@ -4,28 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerInParent="false"
-    android:layout_centerHorizontal="false"
-    android:layout_centerVertical="true"
-    tools:context=".HoldActivity">
+    tools:context=".TurnAroundTask">
 
     <TextView
-        android:id="@+id/holdtextdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get Ready!"
-        android:textSize="20sp"
+        android:id="@+id/x_result"
+        android:layout_width="127dp"
+        android:layout_height="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.536" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/holdtextup"
-        android:layout_width="353dp"
-        android:layout_height="57dp"
-        android:text="Hold still for 10 seconds"
+        android:id="@+id/turnAroundTitle"
+        android:layout_width="249dp"
+        android:layout_height="61dp"
+        android:text="Turn Around Task"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -33,33 +27,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.249" />
+        app:layout_constraintVertical_bias="0.209" />
 
     <Button
-        android:id="@+id/hold_btn"
+        android:id="@+id/turnAroundStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onButtonClick"
+        android:onClick="startTurnAround"
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405" />
+        app:layout_constraintVertical_bias="0.366" />
 
-    <ProgressBar
-        android:id="@+id/hold_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="270dp"
-        android:layout_height="24dp"
-        android:max="100"
+    <Button
+        android:id="@+id/finishBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.646" />
-
+        app:layout_constraintVertical_bias="0.629" />
 </androidx.constraintlayout.widget.ConstraintLayout>
