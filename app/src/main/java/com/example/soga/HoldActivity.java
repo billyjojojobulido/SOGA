@@ -154,7 +154,7 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
     public void finish(){
         isTimeRunning = false;
         flag = false;
-        sensorManager.unregisterListener(this);
+        onPause();
         stabilityHandler.removeCallbacks(stabilityRunnable);
         button_test.setText("finished");
         hold_textdown.setText("Congratulations! You made it.");
