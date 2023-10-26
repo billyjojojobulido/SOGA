@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ public class JoinActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ArrayList<HashMap<String, Object>> endpoints;
     private TextView textPop;
+    private Boolean clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +48,25 @@ public class JoinActivity extends AppCompatActivity {
 
 //    the user need to click the button to confirm their join codes
     public void onButtonClickCode(View view){
-        textPop.setText("");
 
-        String inputCode = joinCode.getText().toString();
+        if (!clicked) {
+            clicked = true;
+            textPop.setText("");
 
-        if (inputCode.isEmpty()){
-            textPop.setText("Please input valid code.");
-            joinCode.setText("Code: ");
-            return;
-        }else{
-            confirmBtn.setText("Checking");
-            checkJoin(inputCode);
+            String inputCode = joinCode.getText().toString();
+
+            if (inputCode.isEmpty()) {
+                textPop.setText("Please input a valid code.");
+                joinCode.setText("Code: ");
+
+
+            } else {
+                confirmBtn.setText("Checking");
+                checkJoin(inputCode);
+
+            }
+            confirmBtn.setText("Confirm");
+            clicked = false;
         }
 
 
@@ -71,18 +81,26 @@ public class JoinActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult().isEmpty()){
-                        textPop.setText("No such a room");
-                    }else {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        textPop.setText("Wrong code. Please check it.");
 
+                    }else {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            confirmBtn.setText("Joining");
                             // Get the "endpoints" field which is a hashmap
                             endpoints = (ArrayList<HashMap<String, Object>>) document.get("endpoints");
 
 //                            testing purpose
 //                            textPop.setText(endpoints.get(0).get("answer").toString());
 
-                            if (endpoints != null) {
-                                // Do something with the "endpoints" hashmap
+                            if (endpoints == null) {
+                                textPop.setText("The room no longer exists");
+                                joinCode.setText("Code: ");
+
+                                return;
+                            }else{
+//                                should start the game and enter in map page
+                                startActivities(new Intent[]{new Intent(JoinActivity.this, MapsActivity.class)});
                             }
                         }
                     }
@@ -92,12 +110,8 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
-//    after checking the join code, if true then download the game details and jump to map page
-//    else jump to the main page or ask for the code again
 
     public ArrayList<HashMap<String, Object>> getEndpoints() {
         return endpoints;
