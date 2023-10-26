@@ -1,16 +1,27 @@
 package com.example.soga;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class JoinActivity extends AppCompatActivity {
 
     private Button confirmBtn;
     private TextView joinCode;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +31,39 @@ public class JoinActivity extends AppCompatActivity {
         confirmBtn = findViewById(R.id.confirmBtn);
         joinCode = findViewById(R.id.textJoinCode);
 
+        db = FirebaseFirestore.getInstance();
+
+
     }
 
 //    the user need to click the button to confirm their join codes
-    private void onButtonClick(View view){
+    public void onButtonClickCode(View view){
+
+        confirmBtn.setText("Checking");
+        String inputCode = joinCode.getText().toString();
+
+        if (inputCode.isEmpty()){
+            joinCode.setText("Please input valid code.");
+            return;
+        }
+
+        db.collection("rooms").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String codeFromDb = document.getString("code");
+                        if (inputCode.equals(codeFromDb)) {
+                            confirmBtn.setText("Joining");
+
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
 
     }
 
