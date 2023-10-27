@@ -1,5 +1,7 @@
 package com.example.soga;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,7 +18,13 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,8 +147,37 @@ public class StepsActivity extends AppCompatActivity {
     public void storeSteps (String username){
         Map<String,Object> userSteps = new HashMap<>();
         userSteps.put("steps", appSteps);
-//        assuming we are using a datacollection named userSteps
-        db.collection("userSteps").document(username).set(userSteps);
+//        assuming we are using a data collection named userInfo, and there is an attribute called "name"
+//        both data collection name and attribute name can be changed according to the real db
+        db.collection("userInfo").whereEqualTo("name", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Get the document ID
+                        String documentId = document.getId();
+
+                        // Update the "steps" field in the document
+                        db.collection("userInfo").document(documentId).update(userSteps)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "Document successfully updated!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error updating document", e);
+                                    }
+                                });
+
+                    }
+                } else {
+                    Log.d(TAG, "Error retrieving documents: ", task.getException());
+                }
+            }
+        });
 
 
     }
