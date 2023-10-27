@@ -128,6 +128,8 @@ public class StepsActivity extends AppCompatActivity {
                     initialStepCount = steps;
                 }else{
                     appSteps = steps - initialStepCount;
+//                    testing for adding steps in the userInfo collection
+//                    storeSteps ("test");
                 }
 
                 step_text.setText(String.valueOf(appSteps));
@@ -155,6 +157,7 @@ public class StepsActivity extends AppCompatActivity {
         userSteps.put("steps", appSteps);
 //        assuming we are using a data collection named userInfo, and there is an attribute called "name"
 //        both data collection name and attribute name can be changed according to the real db
+//        one problem here: what if the username is not unique
         db.collection("userInfo").whereEqualTo("name", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
