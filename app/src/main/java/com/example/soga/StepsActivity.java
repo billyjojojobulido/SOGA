@@ -100,7 +100,7 @@ public class StepsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+//    @Override
 //    protected void onPause() {
 //        super.onPause();
 //        // Unregister the listener to conserve battery and system resources
@@ -184,7 +184,7 @@ public class StepsActivity extends AppCompatActivity {
                 }
             }
         });
-
+        finish();
 
     }
 
