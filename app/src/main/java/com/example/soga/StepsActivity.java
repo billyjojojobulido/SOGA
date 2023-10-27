@@ -101,11 +101,11 @@ public class StepsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        // Unregister the listener to conserve battery and system resources
-        sensorManager.unregisterListener(stepListener);
-    }
+//    protected void onPause() {
+//        super.onPause();
+//        // Unregister the listener to conserve battery and system resources
+//        sensorManager.unregisterListener(stepListener);
+//    }
 
     private void initSteps() {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -141,6 +141,12 @@ public class StepsActivity extends AppCompatActivity {
             }
         };
     }
+
+    public void finish(){
+//        stop using all the sensor
+        sensorManager.unregisterListener(stepListener);
+    }
+
 
     // the username should be the "user" from main acitivity,
     // this method should be called when the user arrives the final destination
