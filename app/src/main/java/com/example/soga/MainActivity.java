@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         } else {// if not,jump to log in page
             intent = new Intent(this, Login.class);
         }
-        intent = new Intent(this, RoomManagement.class);
+//        intent = new Intent(this, RoomManagement.class);
         startActivity(intent);
         finish();
 

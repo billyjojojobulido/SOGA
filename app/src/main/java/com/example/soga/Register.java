@@ -24,13 +24,17 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+//        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_registration);
 
     }
     public void register(View view){
         EditText email, password;
-        email = findViewById(R.id.registerEmail);
-        password = findViewById(R.id.password);
+//        email = findViewById(R.id.registerEmail);
+//        password = findViewById(R.id.password);
+
+        email = findViewById(R.id.registrationEmail);
+        password = findViewById(R.id.registrationPassword);
         String emailText = email.getText().toString();
         String passwordText = password.getText().toString();
         if(TextUtils.isEmpty(emailText)){

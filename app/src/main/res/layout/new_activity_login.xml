@@ -117,6 +117,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:clickable="true"
+                android:onClick="openRegister"
                 android:text="Create an account" />
         </RelativeLayout>
         <View

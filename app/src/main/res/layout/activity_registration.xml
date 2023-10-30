@@ -77,7 +77,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/signInEmail"
+            android:id="@+id/registrationEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/baseline_email_24"
@@ -96,7 +96,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/signInPassword"
+            android:id="@+id/registrationPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/baseline_password_24"
@@ -121,8 +121,8 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:onClick="signIn"
-            android:text="Login"
+            android:onClick="register"
+            android:text="Sign up"
             app:cornerRadius="32dp" />
 
         <View
