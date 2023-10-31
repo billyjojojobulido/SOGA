@@ -24,7 +24,7 @@
         android:id="@+id/textJoinCode"
         android:layout_width="249dp"
         android:layout_height="61dp"
-        android:text="Code: "
+        android:hint="Enter code"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -46,4 +46,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.405" />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="112dp"
+        android:layout_height="50dp"
+        android:onClick="back"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.552" />
 </androidx.constraintlayout.widget.ConstraintLayout>

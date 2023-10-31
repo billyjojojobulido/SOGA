@@ -111,6 +111,9 @@ public class JoinActivity extends AppCompatActivity {
         });
 
     }
+    public void back(View view){
+        finish();
+    }
 
 
     public ArrayList<HashMap<String, Object>> getEndpoints() {
