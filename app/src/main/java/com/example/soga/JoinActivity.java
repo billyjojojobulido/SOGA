@@ -79,35 +79,37 @@ public class JoinActivity extends AppCompatActivity {
 
     }
 
-    private boolean canJoin(String code){
-        final boolean[] ret = {true};  // element array -> inner element assignment;
-        db.collection("rooms").whereEqualTo("code", code).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    /**
+     * Join a New Game
+     * */
+    private void createGame(String code, String uid){
+        confirmBtn.setText("Joining");
+        long currentTimeStamp = System.currentTimeMillis() / 1000;
 
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    if (task.getResult().isEmpty()){
-                        ret[0] = false;
-                    }else {
-                        ret[0] = true;
+        Map<String, Object> game = new HashMap<>();
+        game.put("uid", uid);
+        game.put("roomCode", code);
+        game.put("progress", 0);
+        game.put("startTime", currentTimeStamp);
+        game.put("steps", 0);
+        game.put("endpoints", endpoints);
 
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            endpoints = (ArrayList<HashMap<String, Object>>) document.get("endpoints");
-                            if (endpoints == null) {
-                                textPop.setText("The room no longer exists");
-                                ret[0] = false;
-                            }
-                            break;
-                        }
+        // Add a new document with a generated ID
+        db.collection("games").add(game).addOnSuccessListener(
+                new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        startActivities(new Intent[]{new Intent(JoinActivity.this, MapsActivity.class)});
                     }
-
-                } else {
-                    Log.d(TAG, "Error retrieving Rooms documents: ", task.getException());
-                }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(JoinActivity.this,"Failed", Toast.LENGTH_SHORT).show();
+                Log.w(TAG, "Error adding document", e);
             }
         });
 
-        return ret[0];
     }
 
     private void joinRoom(String code){
@@ -122,39 +124,35 @@ public class JoinActivity extends AppCompatActivity {
 
         /** Check if the room exists
          * */
-        if (!canJoin(code)){
-            textPop.setText("Room does not exist, please try a valid code.");
-            return;
-        }
+        db.collection("rooms").whereEqualTo("code", code).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
-        /**
-         * Join a New Game
-         * */
-        confirmBtn.setText("Joining");
-        long currentTimeStamp = System.currentTimeMillis() / 1000;
-
-        Map<String, Object> game = new HashMap<>();
-        game.put("uid", uid);
-        game.put("roomCode", code);
-        game.put("progress", 0);
-        game.put("startTime", currentTimeStamp);
-        game.put("steps", 0);
-
-        // Add a new document with a generated ID
-        db.collection("games").add(game).addOnSuccessListener(
-                new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        startActivities(new Intent[]{new Intent(JoinActivity.this, MapsActivity.class)});
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    if (task.getResult().isEmpty()){
+                        textPop.setText("Room does not exist, please try a valid code.");
+                    }else {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            endpoints = (ArrayList<HashMap<String, Object>>) document.get("endpoints");
+                            if (endpoints == null) {
+                                textPop.setText("The room no longer exists");
+                                return;
+                            }
+                            break;
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(JoinActivity.this,"Failed", Toast.LENGTH_SHORT).show();
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+                    /**
+                     * Create the game after successfully found the room.
+                     * */
+                    createGame(code, uid);
+
+                } else {
+                    Log.d(TAG, "Error retrieving Rooms documents: ", task.getException());
+                }
+            }
+        });
+
+
     }
 
 
