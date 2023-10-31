@@ -25,22 +25,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         Intent intent;
 
-//        if (user != null) {//if the user logged in, just jump to map page
-////            intent = new Intent(this, Register.class);
-////            intent = new Intent(this, .class);
-//
-//        } else {// if not,jump to log in page
-//            intent = new Intent(this, Login.class);
-//            startActivity(intent);
-//            finish();
-//        }
-        intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
-//        finish();
+        if (user != null) {//if the user logged in, just jump to map page
+//            intent = new Intent(this, Register.class);
+            intent = new Intent(this, Login.class);
+
+        } else {// if not,jump to log in page
+            intent = new Intent(this, Login.class);
+        }
+//        intent = new Intent(this, RoomManagement.class);
+        startActivity(intent);
+        finish();
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -57,13 +54,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
-    public void onButtonClickCreate(View view){
-        startActivities(new Intent[]{new Intent(this, RoomManagement.class)});
-    }
-
-    public void onButtonClickJoin(View view){
-        startActivities(new Intent[]{new Intent(this, JoinActivity.class)});
-    }
 
 
 }
