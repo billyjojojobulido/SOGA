@@ -80,28 +80,27 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private boolean canJoin(String code){
-        final boolean[] ret = {false};  // element array -> inner element assignment;
+        final boolean[] ret = {true};  // element array -> inner element assignment;
         db.collection("rooms").whereEqualTo("code", code).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    if (task.isSuccessful()) {
-                        if (task.getResult().isEmpty()){
-                            ret[0] = false;
-                        }else {
-                            ret[0] = true;
+                    if (task.getResult().isEmpty()){
+                        ret[0] = false;
+                    }else {
+                        ret[0] = true;
 
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                endpoints = (ArrayList<HashMap<String, Object>>) document.get("endpoints");
-                                if (endpoints == null) {
-                                    textPop.setText("The room no longer exists");
-                                    ret[0] = false;
-                                }
-                                break;
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            endpoints = (ArrayList<HashMap<String, Object>>) document.get("endpoints");
+                            if (endpoints == null) {
+                                textPop.setText("The room no longer exists");
+                                ret[0] = false;
                             }
+                            break;
                         }
                     }
+
                 } else {
                     Log.d(TAG, "Error retrieving Rooms documents: ", task.getException());
                 }
