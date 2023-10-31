@@ -31,33 +31,31 @@ A **scavenger hunt** is a recreational activity or game in which participants, o
   - Google Map API
   - Weather API (only if necessary)
 
-
-
 ## Main Features
 
 - User Management (Firebase)
-  - Registration
-  - Login/out
+  - [x] Registration
+  - [x] Login/out
 - Gaming
-  - Room Management
-    - Create
-    - Join (room code)
+  - [x] Room Management
+    - [x] Create
+    - [x] Join (room code)
   - Game Setup
-    - Tasks Managment
-      - Positioning
-      - Small Games
-      - Evidences Editing
-    - Destination (Final Task)
-      - Find on map (Google Map API) 
-  - Player
-    - Constraint on
-      - Hints (depends on further design)
-        - Naive approach: give out the address
-    - Arrival Check
-      - Button on the Screen
-      - Disance check
-      - Small Games Completion
-      - Leaderboard
+    - [x] Tasks Managment
+      - [x] Positioning
+      - [x] Small Games
+      - [x] Evidences Editing
+    - [ ] Destination (Final Task)
+      - [ ] Find on map (Google Map API) 
+  - [ ] Player
+    - [ ] Constraint on
+      - [ ] Hints (depends on further design)
+        - [ ] Naive approach: give out the address
+    - [ ] Arrival Check
+      - [ ] Button on the Screen
+      - [ ] Disance check
+      - [ ] Small Games Completion
+      - [ ] Leaderboard
     - Leaderboard
-      - algorithm-based 
-      - show steps
+      - [ ] algorithm-based 
+      - [ ] show steps
