@@ -69,9 +69,6 @@ public class JoinActivity extends AppCompatActivity {
             clicked = false;
         }
 
-
-
-
     }
 
 //    after entering the code, it will be checked to the firebase to see if the room truly exists
