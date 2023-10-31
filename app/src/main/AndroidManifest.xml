@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- for access to count walking steps -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--    for access to count walking steps-->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <uses-feature
@@ -24,9 +25,6 @@
         android:theme="@style/Theme.SOGA"
         tools:targetApi="31">
         <activity
-            android:name=".JoinActivity"
-            android:exported="false" />
-        <activity
             android:name=".StepsActivity"
             android:exported="false" />
         <activity
@@ -41,11 +39,13 @@
         <activity
             android:name=".HoldActivity"
             android:exported="false" />
+
         <activity
             android:name=".TurnAroundTask"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".MainActivity" -->
-        <!-- android:exported="true" /> -->
+            android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".MainActivity"-->
+        <!--            android:exported="true" />-->
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -67,7 +67,11 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".Login"
-            android:exported="true"></activity>
+            android:exported="true">
+
+
+        </activity>
+
         <activity
             android:name=".Register"
             android:exported="false" />
