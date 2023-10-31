@@ -255,9 +255,10 @@
         />
 
     <Button
-        android:id="@+id/back"
+        android:id="@+id/create_room_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="backToMain"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

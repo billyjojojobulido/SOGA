@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +55,10 @@ public class RoomManagement extends AppCompatActivity {
         setContentView(R.layout.activity_room_management);
     }
 
+
+    public void backToMain(View view){
+        startActivities(new Intent[]{new Intent(this, MainActivity.class)});
+    }
 
     public void checkLocation(View view) {
 
