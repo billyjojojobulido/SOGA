@@ -47,7 +47,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<HashMap<String, Object>> endpoints;
     private int progress = 0;
 
-    private static final int REQUEST_CODE_JUMP_TASK = 1;
+    private static final int TASK_CODE_HORIZONTAL = 0;
+    private static final int TASK_CODE_JUMP = 1;
+    private static final int TASK_CODE_CIRCLE = 2;
+
 
     private final ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -212,6 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void arrivalCheck(View view){
         String endpointLat = (String) endpoints.get(progress).get("lat");
         String endpointLon = (String) endpoints.get(progress).get("lng");
+        int taskCode = (int) endpoints.get(progress).get("task");
 
         try {
             double lat = Double.parseDouble(endpointLat);
