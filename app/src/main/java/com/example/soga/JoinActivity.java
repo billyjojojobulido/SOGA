@@ -100,7 +100,10 @@ public class JoinActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        startActivities(new Intent[]{new Intent(JoinActivity.this, MapsActivity.class)});
+                        Intent intent = new Intent(JoinActivity.this, MapsActivity.class);
+                        intent.putExtra("endpoints", endpoints);
+                        intent.putExtra("code", code);
+                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

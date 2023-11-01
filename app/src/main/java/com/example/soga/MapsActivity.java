@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +24,8 @@ import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import android.Manifest;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,13 +37,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
+    private ArrayList<HashMap<String, Object>> endpoints;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        endpoints = (ArrayList<HashMap<String, Object>>) intent.getSerializableExtra("endpoints");
+
+        int totalProgress = endpoints.size();
+
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        TextView progressView = findViewById(R.id.progress_text);
+        progressView.setText("Progress: 0 / " + totalProgress);
 
         // check location permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
