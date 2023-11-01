@@ -14,21 +14,24 @@
     tools:context=".MapsActivity" />
 
     <Button
-        android:id="@+id/hint_btn"
-        android:layout_width="wrap_content"
+        android:id="@+id/button_hint"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_button_background"
         android:text="Hint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.96" />
 
     <Button
         android:id="@+id/button_logout"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_button_background"
+        android:onClick="logOut"
         android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,30 +54,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
-    <!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_marginStart="15dp"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:layout_marginEnd="15dp"-->
-<!--        android:layout_marginBottom="15dp"-->
-<!--        android:background="#673AB7"-->
-<!--        android:text="Button one" />-->
+    <Button
+        android:id="@+id/button_arrive"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/round_button_background"
 
-<!--    <Button-->
-<!--        android:id="@+id/map_log_out"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_marginStart="15dp"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:layout_marginEnd="15dp"-->
-<!--        android:layout_marginBottom="15dp"-->
-<!--        android:background="#673AB7"-->
-<!--        android:onClick="signOut"-->
-<!--        android:text="Log out" />-->
+        android:text="Arrive"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
