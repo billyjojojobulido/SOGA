@@ -4,7 +4,9 @@ package com.example.soga;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -38,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private ArrayList<HashMap<String, Object>> endpoints;
-
+    private int progress = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         TextView progressView = findViewById(R.id.progress_text);
-        progressView.setText("Progress: 0 / " + totalProgress);
+        progressView.setText("Progress: " + progress + " / " + totalProgress);
 
         // check location permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -130,11 +132,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
     }
 
+    public void getHint(View view){
+        if (progress >= endpoints.size()){
+            return;
+        }
+
+        String hint = (String) endpoints.get(progress).get("hint");
+        showHintDialog(hint);
+    }
+
+
+    private void showHintDialog(String hint) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Hint For Current Endpoint");
+        builder.setMessage("Hint:\n" + hint);
+
+        // btn to quite
+        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+
+        // create dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     public void arrivalCheck(View view){
         boolean isNearBy = isLocationNearby(37.42267,-122.08498,5);
         System.out.println(currentLatLng.latitude);
         System.out.println(currentLatLng.longitude);
         if(isNearBy){
+            /**
+             * TODO
+             * Write to DB
+             * */
+            progress ++;
             Intent intent = new Intent(this, JumpActivity.class);
             startActivity(intent);
         }else{

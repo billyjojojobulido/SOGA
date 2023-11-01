@@ -18,6 +18,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_button_background"
+        android:onClick="getHint"
         android:text="Hint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
