@@ -38,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private ArrayList<HashMap<String, Object>> endpoints;
-
+    private int progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
