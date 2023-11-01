@@ -47,9 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<HashMap<String, Object>> endpoints;
     private int progress = 0;
 
-    private static final int TASK_CODE_HORIZONTAL = 0;
-    private static final int TASK_CODE_JUMP = 1;
-    private static final int TASK_CODE_CIRCLE = 2;
+    private static final Long TASK_CODE_HORIZONTAL = 0L;
+    private static final Long TASK_CODE_JUMP = 1L;
 
 
     private final ActivityResultLauncher<Intent> activityResultLauncher =
@@ -215,7 +214,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void arrivalCheck(View view){
         String endpointLat = (String) endpoints.get(progress).get("lat");
         String endpointLon = (String) endpoints.get(progress).get("lng");
-        int taskCode = (int) endpoints.get(progress).get("task");
+        Long taskCode = (Long) endpoints.get(progress).get("task");
 
         try {
             double lat = Double.parseDouble(endpointLat);
@@ -228,7 +227,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                   * Write to DB
                   * */
 
-                Intent intent = new Intent(this, JumpActivity.class);
+                Intent intent;
+                if (taskCode == TASK_CODE_HORIZONTAL) {
+                    intent = new Intent(this, HoldActivity.class);
+                } else if (taskCode == TASK_CODE_JUMP) {
+                    intent = new Intent(this, JumpActivity.class);
+                } else {
+                    intent = new Intent(this, TurnAroundTask.class);
+                }
                 intent.putExtra("progress", progress);
                 activityResultLauncher.launch(intent);
             }else{

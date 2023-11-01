@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -121,7 +122,7 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
                     stabilityCheckCount++;
                     hold_progress.setProgress(10*stabilityCheckCount);
                     if (stabilityCheckCount == 10) {
-                        finish();
+                        finishCounting();
                     } else {
                         // Continue checking
                         stabilityHandler.postDelayed(stabilityRunnable, 1000);
@@ -151,10 +152,11 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    public void finish(){
+    public void finishCounting(){
         isTimeRunning = false;
         flag = false;
-        onPause();
+//        onPause();
+        sensorManager.unregisterListener(this);
         stabilityHandler.removeCallbacks(stabilityRunnable);
         button_test.setText("finished");
         hold_textdown.setText("Congratulations! You made it.");
@@ -169,9 +171,13 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-//    public void hold(View view){
-//        startActivities(new Intent[]{new Intent(this, HoldActivity.class)});
-//    }
+    public void onButtonClickFinishHold(View view) {
+        Intent resultIntent = new Intent();
+        int updatedProgress = getIntent().getIntExtra("progress", 0) + 1;
+        resultIntent.putExtra("updatedProgress", updatedProgress);
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
 
 
 }
