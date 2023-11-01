@@ -94,4 +94,12 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
+    public void onButtonClickFinishTurn(View view) {
+        Intent resultIntent = new Intent();
+        int updatedProgress = getIntent().getIntExtra("progress", 0) + 1;
+        resultIntent.putExtra("updatedProgress", updatedProgress);
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
 }
