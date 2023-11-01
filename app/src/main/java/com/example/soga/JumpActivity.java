@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class JumpActivity extends AppCompatActivity implements SensorEventListener {
@@ -31,6 +33,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private int realValue = 0;
     private boolean flag = false;
     Button finish;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,12 +144,12 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void onButtonClickFinish(View view) {
-//        progressBar = findViewById(R.id.progressBar);
-        startActivities(new Intent[]{new Intent(this, MapsActivity.class)});
-
-//        updateProgressBar(progressBar);
+        Intent resultIntent = new Intent();
+        int updatedProgress = getIntent().getIntExtra("progress", 0) + 1;
+        resultIntent.putExtra("updatedProgress", updatedProgress);
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
-
 
 
 }

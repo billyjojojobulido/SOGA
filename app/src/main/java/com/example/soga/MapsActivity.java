@@ -1,9 +1,14 @@
 package com.example.soga;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,6 +46,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ArrayList<HashMap<String, Object>> endpoints;
     private int progress = 0;
+
+    private static final Long TASK_CODE_HORIZONTAL = 0L;
+    private static final Long TASK_CODE_JUMP = 1L;
+
+
+    private final ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            if (result.getResultCode() == Activity.RESULT_OK) {
+                                // Here, no request code
+                                Intent data = result.getData();
+                                if (data != null) {
+                                    int updatedProgress = data.getIntExtra("updatedProgress", 1);
+                                    progress = updatedProgress;
+                                    updateProgressUI();
+                                }
+                            }
+                        }
+                    });
+
+    private void updateProgressUI(){
+        int totalProgress = endpoints.size();
+
+        TextView progressView = findViewById(R.id.progress_text);
+        progressView.setText("Progress: " + progress + " / " + totalProgress);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,27 +141,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This method get the current location via locationManager
      * */
     public void getCurrentLocation() {
-        double Default_Lat = -37.80364308009827;
-        double Default_Lng = 144.96373452399772;
-        LocationManager locationManager = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        }
-        List<String> providers = locationManager.getProviders(true);
-        Location location;
-        for (String provider : providers) {
-            try {
-                location = locationManager.getLastKnownLocation(provider);
-                if (location != null) {
-                    Default_Lat = location.getLatitude();
-                    Default_Lng = location.getLongitude();
-                    break;
-                }
-
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        }
+        double Default_Lat = -37.7983459;
+        double Default_Lng = 144.960974;
+//        LocationManager locationManager = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        }
+//        List<String> providers = locationManager.getProviders(true);
+//        Location location;
+//        for (String provider : providers) {
+//            try {
+//                location = locationManager.getLastKnownLocation(provider);
+//                if (location != null) {
+//                    Default_Lat = location.getLatitude();
+//                    Default_Lng = location.getLongitude();
+//                    break;
+//                }
+//
+//            } catch (SecurityException e) {
+//                e.printStackTrace();
+//            }
+//        }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
     }
 
@@ -181,6 +214,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void arrivalCheck(View view){
         String endpointLat = (String) endpoints.get(progress).get("lat");
         String endpointLon = (String) endpoints.get(progress).get("lng");
+        Long taskCode = (Long) endpoints.get(progress).get("task");
 
         try {
             double lat = Double.parseDouble(endpointLat);
@@ -192,9 +226,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                   * TODO
                   * Write to DB
                   * */
-                progress ++;
-                Intent intent = new Intent(this, JumpActivity.class);
-                startActivity(intent);
+
+                Intent intent;
+                if (taskCode == TASK_CODE_HORIZONTAL) {
+                    intent = new Intent(this, HoldActivity.class);
+                } else if (taskCode == TASK_CODE_JUMP) {
+                    intent = new Intent(this, JumpActivity.class);
+                } else {
+                    intent = new Intent(this, TurnAroundTask.class);
+                }
+                intent.putExtra("progress", progress);
+                activityResultLauncher.launch(intent);
             }else{
                 showMessageDialog("You are not at right place");
             }
