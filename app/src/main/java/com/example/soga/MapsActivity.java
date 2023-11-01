@@ -160,22 +160,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dialog.show();
     }
 
+    private void showMessageDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Message");
+        builder.setMessage(message);
+
+        // btn to quite
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+
+        // create dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     public void arrivalCheck(View view){
-        boolean isNearBy = isLocationNearby(37.42267,-122.08498,5);
-        System.out.println(currentLatLng.latitude);
-        System.out.println(currentLatLng.longitude);
-        if(isNearBy){
-            /**
-             * TODO
-             * Write to DB
-             * */
-            progress ++;
-            Intent intent = new Intent(this, JumpActivity.class);
-            startActivity(intent);
-        }else{
-            Intent intent = new Intent(this, HoldActivity.class);
-            startActivity(intent);
+        String endpointLat = (String) endpoints.get(progress).get("lat");
+        String endpointLon = (String) endpoints.get(progress).get("lng");
+
+        try {
+            double lat = Double.parseDouble(endpointLat);
+            double lon = Double.parseDouble(endpointLon);
+            boolean isNearBy = isLocationNearby(lat,lon,5);
+            if(isNearBy){
+                System.out.println("You are here.");
+                /**
+                  * TODO
+                  * Write to DB
+                  * */
+                progress ++;
+                Intent intent = new Intent(this, JumpActivity.class);
+                startActivity(intent);
+            }else{
+                showMessageDialog("You are not at right place");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
+
     }
 
     public boolean isLocationNearby(double targetLat, double targetLon,double distanceThreshold){
