@@ -138,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         String hint = (String) endpoints.get(progress).get("hint");
-
+        showHintDialog(hint);
     }
 
 
