@@ -23,6 +23,8 @@ import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import android.Manifest;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,10 +36,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
+    private ArrayList<HashMap<String, Object>> endpoints;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        endpoints = (ArrayList<HashMap<String, Object>>) intent.getSerializableExtra("endpoints");
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
