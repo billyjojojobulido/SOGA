@@ -60,6 +60,7 @@
         android:layout_height="100dp"
         android:background="@drawable/round_button_background"
 
+        android:onClick="arrivalCheck"
         android:text="Arrive"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"

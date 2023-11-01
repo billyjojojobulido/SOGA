@@ -117,7 +117,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
     }
 
+    public void arrivalCheck(View view){
+        boolean isNearBy = isLocationNearby(37.42267,-122.08498,5);
+        System.out.println(currentLatLng.latitude);
+        System.out.println(currentLatLng.longitude);
+        if(isNearBy){
+            Intent intent = new Intent(this, JumpActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, HoldActivity.class);
+            startActivity(intent);
+        }
+    }
 
+    public boolean isLocationNearby(double targetLat, double targetLon,double distanceThreshold){
+        Location targetLocation = new Location("target");
+        targetLocation.setLatitude(targetLat);
+        targetLocation.setLongitude(targetLon);
+
+        Location currentLocation = new Location("current");
+        getCurrentLocation();
+        currentLocation.setLatitude(currentLatLng.latitude);
+        currentLocation.setLongitude(currentLatLng.longitude);
+
+        float distance = currentLocation.distanceTo(targetLocation);
+
+        // Return true if the distance is less than or equal to the threshold, false otherwise
+        return distance <= distanceThreshold;
+    }
 
 
     public void signOut(View view){
