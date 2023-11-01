@@ -1,9 +1,14 @@
 package com.example.soga;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,6 +46,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ArrayList<HashMap<String, Object>> endpoints;
     private int progress = 0;
+
+    private static final int REQUEST_CODE_JUMP_TASK = 1;
+
+    private final ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            if (result.getResultCode() == Activity.RESULT_OK) {
+                                // Here, no request code
+                                Intent data = result.getData();
+                                if (data != null) {
+                                    int updatedProgress = data.getIntExtra("updatedProgress", 1);
+                                    progress = updatedProgress;
+                                    updateProgressUI();
+                                }
+                            }
+                        }
+                    });
+
+    private void updateProgressUI(){
+        int totalProgress = endpoints.size();
+
+        TextView progressView = findViewById(R.id.progress_text);
+        progressView.setText("Progress: " + progress + " / " + totalProgress);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,9 +223,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                   * TODO
                   * Write to DB
                   * */
-                progress ++;
+
                 Intent intent = new Intent(this, JumpActivity.class);
-                startActivity(intent);
+                intent.putExtra("progress", progress);
+                activityResultLauncher.launch(intent);
             }else{
                 showMessageDialog("You are not at right place");
             }
