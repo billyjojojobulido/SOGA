@@ -108,27 +108,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This method get the current location via locationManager
      * */
     public void getCurrentLocation() {
-        double Default_Lat = -37.80364308009827;
-        double Default_Lng = 144.96373452399772;
-        LocationManager locationManager = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        }
-        List<String> providers = locationManager.getProviders(true);
-        Location location;
-        for (String provider : providers) {
-            try {
-                location = locationManager.getLastKnownLocation(provider);
-                if (location != null) {
-                    Default_Lat = location.getLatitude();
-                    Default_Lng = location.getLongitude();
-                    break;
-                }
-
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        }
+        double Default_Lat = -37.7983459;
+        double Default_Lng = 144.960974;
+//        LocationManager locationManager = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        }
+//        List<String> providers = locationManager.getProviders(true);
+//        Location location;
+//        for (String provider : providers) {
+//            try {
+//                location = locationManager.getLastKnownLocation(provider);
+//                if (location != null) {
+//                    Default_Lat = location.getLatitude();
+//                    Default_Lng = location.getLongitude();
+//                    break;
+//                }
+//
+//            } catch (SecurityException e) {
+//                e.printStackTrace();
+//            }
+//        }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
     }
 

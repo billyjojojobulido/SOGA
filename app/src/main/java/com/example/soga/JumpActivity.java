@@ -141,8 +141,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     public void onButtonClickFinish(View view) {
 //        progressBar = findViewById(R.id.progressBar);
-        startActivities(new Intent[]{new Intent(this, MapsActivity.class)});
+//        startActivities(new Intent[]{new Intent(this, MapsActivity.class)});
 
+        finish();
 //        updateProgressBar(progressBar);
     }
 
