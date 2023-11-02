@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,8 +28,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private SensorManager sensorManager;
     private Sensor sensor;
+    private Marker userMarker;
 
 
     private final ActivityResultLauncher<Intent> activityResultLauncher =
@@ -159,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
     private void updateMapDirection(float azimuth) {
-        if (mMap != null) {
+        if (mMap != null && userMarker != null) {
             // 使用CameraPosition设置地图方向
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(currentLatLng) // 当前位置
@@ -167,6 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .bearing(azimuth) // 设置地图方向
                     .build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            userMarker.setRotation(azimuth);
         }
     }
 
@@ -193,9 +199,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getCurrentLocation();
 //        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
         LatLng unimelb = currentLatLng;
-        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
+//        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
 
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(currentLatLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.direction))
+                .anchor(0.5f, 0.5f);
+        int width = 50; // 标记宽度（像素）
+        int height = 50; // 标记高度（像素）
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.direction);
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));// 设置箭头图标
+        userMarker = mMap.addMarker(markerOptions);
+//        userMarker.setRotation(headingAngle);
 
     }
 
@@ -225,13 +243,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 18));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 18));
     }
     @Override
     public void onLocationChanged(Location location) {
         // 获取到新的位置信息后，在地图上更新标记或移动地图视图
         LatLng newLocation = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
+        userMarker.setPosition(newLocation);
     }
 
     public void getHint(View view){
@@ -347,9 +366,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getCurrentLocation();
-//                LatLng unimelb = currentLatLng;
+                LatLng unimelb = currentLatLng;
 //                mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
             } else {
                 getCurrentLocation();
                 Toast.makeText(this, "Location permission dined.",Toast.LENGTH_SHORT).show();
