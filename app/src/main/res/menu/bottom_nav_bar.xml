@@ -17,11 +17,11 @@
     <item
     android:id="@+id/profile"
     android:icon="@drawable/person_icon"
-    android:title="Profile"/>
+    android:title="Featured"/>
 
     <item
         android:id="@+id/Settings"
         android:icon="@drawable/settings_icon"
-        android:title="Settings"/>
+        android:title="Profile"/>
 
 </menu>
