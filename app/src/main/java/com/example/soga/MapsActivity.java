@@ -14,7 +14,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +28,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +41,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private LatLng currentLatLng;
@@ -49,6 +60,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final Long TASK_CODE_HORIZONTAL = 0L;
     private static final Long TASK_CODE_JUMP = 1L;
+
+    private SensorManager sensorManager;
+    private Sensor sensor;
+    private Marker userMarker;
 
 
     private final ActivityResultLauncher<Intent> activityResultLauncher =
@@ -128,6 +143,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        SensorEventListener sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float azimuth = event.values[0];
+                // 此处获取到的azimuth值表示设备的方向
+                // 使用azimuth来更新地图的方向
+                updateMapDirection(azimuth);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                // 精度变化时的处理，可以忽略
+            }
+        };
+
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+    private void updateMapDirection(float azimuth) {
+        if (mMap != null && userMarker != null) {
+            // 使用CameraPosition设置地图方向
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(currentLatLng) // 当前位置
+                    .zoom(18) // 缩放级别
+                    .bearing(azimuth) // 设置地图方向
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            userMarker.setRotation(azimuth);
+        }
     }
 
     /**
@@ -153,9 +199,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getCurrentLocation();
 //        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
         LatLng unimelb = currentLatLng;
-        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
+//        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
 
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(currentLatLng)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.direction))
+                .anchor(0.5f, 0.5f);
+        int width = 50; // 标记宽度（像素）
+        int height = 50; // 标记高度（像素）
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.direction);
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));// 设置箭头图标
+        userMarker = mMap.addMarker(markerOptions);
+//        userMarker.setRotation(headingAngle);
 
     }
 
@@ -185,6 +243,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 18));
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+        // 获取到新的位置信息后，在地图上更新标记或移动地图视图
+        LatLng newLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
+        userMarker.setPosition(newLocation);
     }
 
     public void getHint(View view){
@@ -301,7 +367,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getCurrentLocation();
                 LatLng unimelb = currentLatLng;
-                mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
+//                mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
             } else {
                 getCurrentLocation();
