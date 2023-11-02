@@ -63,10 +63,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     int updatedProgress = data.getIntExtra("updatedProgress", 1);
                                     progress = updatedProgress;
                                     updateProgressUI();
+                                    if (progress >= endpoints.size()){
+                                        leaderboard();
+                                    }
                                 }
                             }
                         }
                     });
+
+    private void leaderboard(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Congratulations!");
+        builder.setMessage("You have finished the game!");
+
+        // btn to quite
+        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+
+        // create dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     private void updateProgressUI(){
         int totalProgress = endpoints.size();
@@ -143,25 +165,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void getCurrentLocation() {
         double Default_Lat = -37.7983459;
         double Default_Lng = 144.960974;
-//        LocationManager locationManager = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-//            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        }
-//        List<String> providers = locationManager.getProviders(true);
-//        Location location;
-//        for (String provider : providers) {
-//            try {
-//                location = locationManager.getLastKnownLocation(provider);
-//                if (location != null) {
-//                    Default_Lat = location.getLatitude();
-//                    Default_Lng = location.getLongitude();
-//                    break;
-//                }
-//
-//            } catch (SecurityException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        LocationManager locationManager = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        }
+        List<String> providers = locationManager.getProviders(true);
+        Location location;
+        for (String provider : providers) {
+            try {
+                location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    Default_Lat = location.getLatitude();
+                    Default_Lng = location.getLongitude();
+                    break;
+                }
+
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
     }
 
@@ -259,7 +281,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float distance = currentLocation.distanceTo(targetLocation);
 
         // Return true if the distance is less than or equal to the threshold, false otherwise
-        return distance <= distanceThreshold;
+//        return distance <= distanceThreshold;
+        return true;
     }
 
 
