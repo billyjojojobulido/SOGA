@@ -204,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(currentLatLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.direction))
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.direction))
                 .anchor(0.5f, 0.5f);
         int width = 50; // 标记宽度（像素）
         int height = 50; // 标记高度（像素）
