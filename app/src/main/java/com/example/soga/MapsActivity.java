@@ -83,7 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private long startTime;
 
     private long currentTimeStamp;
-    private int step;
     private int progress = 0;
 
     private SensorEventListener stepListener;
@@ -140,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         userInfo.put("username",username);
         userInfo.put("startTime",startTime);
         userInfo.put("endTime",endTime);
-        userInfo.put("steps",step);
+        userInfo.put("steps",appSteps);
 //        db.collection("userInfo").document(username).set(userInfo);
         // Add a new document with a generated ID
         db.collection("userInfo").add(userInfo).addOnSuccessListener(
@@ -218,6 +217,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 ////            enableUserLocation();
 //        }
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+
+        //        if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) == null) {
+        //            step_text.setText("Not available");
+        //        }else{
+        //            step_text.setText("Available");
+        //        }
+
+        stepListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                steps = (int) event.values[0];
+                // Handle step count update
+                if (initialStepCount == 0) {
+                    // First sensor event, store the initial step count
+                    initialStepCount = steps;
+                } else {
+                    appSteps = steps - initialStepCount;
+                }//                simply for testing using firebase, should see a "userSteps" collection, and the instance is named Test
+//                storeSteps ("Test");
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                // Handle accuracy changes
+            }
+        };
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
