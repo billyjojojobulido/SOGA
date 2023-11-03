@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2"
+    android:background="@drawable/bg3"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -34,7 +34,7 @@
                     android:layout_marginTop="60dp"
                     android:text="WELCOME TO SOGA"
                     android:textColor="@color/white"
-                    android:textSize="30sp"
+                    android:textSize="38sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +47,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="Lets start exploring"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView"
@@ -109,7 +109,7 @@
                         android:gravity="center"
                         android:text="JOIN"
                         android:textColor="@color/white"
-                        android:textSize="15sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -153,7 +153,7 @@
                         android:gravity="center"
                         android:text="CREATE"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -193,9 +193,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="HISTORY"
+                        android:text="LEADERBOARD"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -240,7 +240,7 @@
                         android:gravity="center"
                         android:text="LOGOUT"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -248,8 +248,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
@@ -261,7 +259,7 @@
                     android:layout_weight="1"
                     android:text="Featured Hunts"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
