@@ -103,6 +103,7 @@ public class JoinActivity extends AppCompatActivity {
                         Intent intent = new Intent(JoinActivity.this, MapsActivity.class);
                         intent.putExtra("endpoints", endpoints);
                         intent.putExtra("code", code);
+                        intent.putExtra("startTime",currentTimeStamp);
                         startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {

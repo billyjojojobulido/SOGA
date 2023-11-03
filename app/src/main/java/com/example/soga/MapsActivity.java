@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,15 +47,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.Manifest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -66,13 +73,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final int ACCESS_LOCATION_REQUEST_CODE = 1001;
     private GoogleMap mMap;
+    private Sensor stepSensor;
     private LatLng currentLatLng;
     private ActivityMapsBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private ArrayList<HashMap<String, Object>> endpoints;
+    private long startTime;
+
+    private long currentTimeStamp;
+    private int step;
     private int progress = 0;
+
+    private SensorEventListener stepListener;
+    private int steps;
+    private static final int MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1;
+    private int initialStepCount = 0;
+    private int appSteps = 0;
 
     private static final Long TASK_CODE_HORIZONTAL = 0L;
     private static final Long TASK_CODE_JUMP = 1L;
@@ -82,6 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker userMarker;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
+
+    private FirebaseFirestore db;
 
 
     private final ActivityResultLauncher<Intent> activityResultLauncher =
@@ -108,6 +128,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
         builder.setMessage("You have finished the game!");
+        currentTimeStamp = System.currentTimeMillis() / 1000;
+
+        long endTime = currentTimeStamp;
+        FirebaseUser user = mAuth.getCurrentUser();
+        String username = user.getEmail();
+
+        db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("username",username);
+        userInfo.put("startTime",startTime);
+        userInfo.put("endTime",endTime);
+        userInfo.put("steps",step);
+//        db.collection("userInfo").document(username).set(userInfo);
+        // Add a new document with a generated ID
+        db.collection("userInfo").add(userInfo).addOnSuccessListener(
+                new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Intent intent = new Intent(MapsActivity.this, LeaderBoard.class);
+                        intent.putExtra("username", username);
+                        intent.putExtra("endTime", endTime);
+                        intent.putExtra("startTime",startTime);
+                        startActivity(intent);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MapsActivity.this,"Failed", Toast.LENGTH_SHORT).show();
+                Log.w(ContentValues.TAG, "Error adding document", e);
+            }
+        });
 
         // btn to quite
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -136,6 +189,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         endpoints = (ArrayList<HashMap<String, Object>>) intent.getSerializableExtra("endpoints");
+        startTime =  (long) intent.getSerializableExtra("startTime");
+        System.out.println(startTime);
 
         int totalProgress = endpoints.size();
 
