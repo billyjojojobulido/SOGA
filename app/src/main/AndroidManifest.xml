@@ -29,9 +29,9 @@
         <activity
             android:name=".StepsActivity"
             android:exported="false" />
-        <activity
-            android:name=".StepsActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".StepsActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".RoomManagement"
             android:exported="true" />

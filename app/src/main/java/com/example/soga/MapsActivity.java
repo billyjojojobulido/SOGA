@@ -5,7 +5,9 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
@@ -20,6 +22,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
 import com.google.firebase.auth.FirebaseAuth;
+
 import android.Manifest;
 
 import java.util.ArrayList;
@@ -49,6 +53,7 @@ import android.hardware.SensorManager;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
+    private static final int ACCESS_LOCATION_REQUEST_CODE = 1001;
     private GoogleMap mMap;
     private LatLng currentLatLng;
     private ActivityMapsBinding binding;
@@ -78,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     int updatedProgress = data.getIntExtra("updatedProgress", 1);
                                     progress = updatedProgress;
                                     updateProgressUI();
-                                    if (progress >= endpoints.size()){
+                                    if (progress >= endpoints.size()) {
                                         leaderboard();
                                     }
                                 }
@@ -86,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
 
-    private void leaderboard(){
+    private void leaderboard() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
         builder.setMessage("You have finished the game!");
@@ -105,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dialog.show();
     }
 
-    private void updateProgressUI(){
+    private void updateProgressUI() {
         int totalProgress = endpoints.size();
 
         TextView progressView = findViewById(R.id.progress_text);
@@ -128,15 +133,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         progressView.setText("Progress: " + progress + " / " + totalProgress);
 
         // check location permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//            // if do not have, ask user for the permission
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+//        } else {
+//            // if it has, get location.
+//            getCurrentLocation();
+////            enableUserLocation();
+//        }
 
-            // if do not have, ask user for the permission
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSION);
-        } else {
-            // if it has, get location.
-            getCurrentLocation();
-        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -147,10 +155,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SensorEventListener sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                float azimuth = event.values[0];
-                // 此处获取到的azimuth值表示设备的方向
-                // 使用azimuth来更新地图的方向
-                updateMapDirection(azimuth);
+//                float azimuth = event.values[0];
+//                // 此处获取到的azimuth值表示设备的方向
+//                // 使用azimuth来更新地图的方向
+//                updateMapDirection(azimuth);
+                if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+                    float[] rotationMatrix = new float[9];
+                    float[] orientationValues = new float[3];
+
+                    SensorManager.getRotationMatrix(rotationMatrix, null, null, event.values);
+                    SensorManager.getOrientation(rotationMatrix, orientationValues);
+
+                    float azimuthInRadians = orientationValues[0];
+                    float azimuthInDegrees = (float) Math.toDegrees(azimuthInRadians);
+
+                    // Update marker rotation
+//                    if (yourMarker != null) {
+//                        yourMarker.setRotation(azimuthInDegrees);
+//                    }
+                    System.out.println(azimuthInDegrees);
+
+                    updateMapDirection(azimuthInDegrees);
+                }
             }
 
             @Override
@@ -163,12 +189,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
     }
+
     private void updateMapDirection(float azimuth) {
         if (mMap != null && userMarker != null) {
             // 使用CameraPosition设置地图方向
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(currentLatLng) // 当前位置
-                    .zoom(18) // 缩放级别
+                    .zoom(mMap.getCameraPosition().zoom) // 缩放级别
                     .bearing(azimuth) // 设置地图方向
                     .build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -193,6 +220,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // The bottom will be covered by navigation bar, so padding some area
         mMap.setPadding(0, 0, 0, 150);
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+//            getCurrentLocation();
+
+//            zoomToUserLocation();
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                //We can show user a dialog why this permission is necessary
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_LOCATION_REQUEST_CODE);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_LOCATION_REQUEST_CODE);
+            }
+
+        }
         // Add a marker in Sydney and move the camera
 //        -37.79970759026579, 144.9636742373955
 //        -37.80364308009827, 144.96373452399772
@@ -200,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
         LatLng unimelb = currentLatLng;
 //        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb, 18));
 
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(currentLatLng)
@@ -216,6 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        userMarker.setRotation(headingAngle);
 
     }
+
 
     /**
      * This method get the current location via locationManager
@@ -243,18 +285,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         currentLatLng = new LatLng(Default_Lat, Default_Lng);
+//        System.out.println(Default_Lat);
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 18));
     }
+
     @Override
     public void onLocationChanged(Location location) {
         // 获取到新的位置信息后，在地图上更新标记或移动地图视图
+        System.out.println(location.getLatitude() + location.getLongitude());
         LatLng newLocation = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
         userMarker.setPosition(newLocation);
     }
 
-    public void getHint(View view){
-        if (progress >= endpoints.size()){
+    public void getHint(View view) {
+        if (progress >= endpoints.size()) {
             return;
         }
 
@@ -286,7 +331,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.setTitle("Message");
         builder.setMessage(message);
 
-        // btn to quite
+        // btn to quit
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
@@ -299,7 +345,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dialog.show();
     }
 
-    public void arrivalCheck(View view){
+    public void arrivalCheck(View view) {
         String endpointLat = (String) endpoints.get(progress).get("lat");
         String endpointLon = (String) endpoints.get(progress).get("lng");
         Long taskCode = (Long) endpoints.get(progress).get("task");
@@ -307,13 +353,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             double lat = Double.parseDouble(endpointLat);
             double lon = Double.parseDouble(endpointLon);
-            boolean isNearBy = isLocationNearby(lat,lon,5);
-            if(isNearBy){
+            boolean isNearBy = isLocationNearby(lat, lon, 5);
+            if (isNearBy) {
                 System.out.println("You are here.");
                 /**
-                  * TODO
-                  * Write to DB
-                  * */
+                 * TODO
+                 * Write to DB
+                 * */
 
                 Intent intent;
                 if (taskCode == TASK_CODE_HORIZONTAL) {
@@ -325,7 +371,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 intent.putExtra("progress", progress);
                 activityResultLauncher.launch(intent);
-            }else{
+            } else {
                 showMessageDialog("You are not at right place");
             }
         } catch (NumberFormatException e) {
@@ -334,7 +380,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public boolean isLocationNearby(double targetLat, double targetLon,double distanceThreshold){
+    public boolean isLocationNearby(double targetLat, double targetLon, double distanceThreshold) {
         Location targetLocation = new Location("target");
         targetLocation.setLatitude(targetLat);
         targetLocation.setLongitude(targetLon);
@@ -352,25 +398,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public void signOut(View view){
+    public void signOut(View view) {
         mAuth.signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-        Toast.makeText(this, "User logged out.",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "User logged out.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getCurrentLocation();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                mMap.setMyLocationEnabled(true);
                 LatLng unimelb = currentLatLng;
 //                mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb,18));
             } else {
-                getCurrentLocation();
+//                getCurrentLocation();
+                mMap.setMyLocationEnabled(true);
                 Toast.makeText(this, "Location permission dined.",Toast.LENGTH_SHORT).show();
             }
         }
