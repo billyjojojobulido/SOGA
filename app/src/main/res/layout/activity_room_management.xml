@@ -206,7 +206,6 @@
         android:ems="10"
         android:hint="e.g. University of Melbourne"
         android:inputType="text"
-        android:textSize="15"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
