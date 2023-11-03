@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     public void onButtonClickJoin(View view){
         startActivities(new Intent[]{new Intent(this, JoinActivity.class)});
     }
+    public void onButtonClickBoard(View view){
+        startActivities(new Intent[]{new Intent(this, LeaderBoard.class)});
+    }
 
     public void logOut(View view){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

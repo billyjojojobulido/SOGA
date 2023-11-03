@@ -140,26 +140,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         userInfo.put("startTime",startTime);
         userInfo.put("endTime",endTime);
         userInfo.put("steps",appSteps);
-//        db.collection("userInfo").document(username).set(userInfo);
+        db.collection("userInfo").document(username).set(userInfo);
         // Add a new document with a generated ID
-        db.collection("userInfo").add(userInfo).addOnSuccessListener(
-                new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        Intent intent = new Intent(MapsActivity.this, LeaderBoard.class);
-                        intent.putExtra("username", username);
-                        intent.putExtra("endTime", endTime);
-                        intent.putExtra("startTime",startTime);
-                        startActivity(intent);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MapsActivity.this,"Failed", Toast.LENGTH_SHORT).show();
-                Log.w(ContentValues.TAG, "Error adding document", e);
-            }
-        });
+//        db.collection("userInfo").add(userInfo).addOnSuccessListener(
+//                new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                        Intent intent = new Intent(MapsActivity.this, LeaderBoard.class);
+//                        intent.putExtra("username", username);
+//                        intent.putExtra("endTime", endTime);
+//                        intent.putExtra("startTime",startTime);
+//                        intent.putExtra("steps",appSteps);
+//                        startActivity(intent);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MapsActivity.this,"Failed", Toast.LENGTH_SHORT).show();
+//                Log.w(ContentValues.TAG, "Error adding document", e);
+//            }
+//        });
 
         // btn to quite
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
