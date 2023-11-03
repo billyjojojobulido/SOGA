@@ -83,15 +83,15 @@
                         android:background="@drawable/background_2">
 
                         <ImageView
-                            android:id="@+id/imageView3"
+                            android:id="@+id/imageViewJoin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="9dp"
-                            android:layout_marginLeft="9dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="9dp"
-                            android:layout_marginRight="9dp"
                             android:layout_marginBottom="16dp"
+                            android:clickable="true"
+                            android:onClick="onButtonClickJoin"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +100,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textViewJoin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
@@ -125,15 +125,15 @@
                         android:background="@drawable/background_2">
 
                         <ImageView
-                            android:id="@+id/imageView3"
+                            android:id="@+id/imageViewCreate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
                             android:layout_marginBottom="16dp"
+                            android:clickable="true"
+                            android:onClick="onButtonClickCreate"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textViewCreate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -167,7 +167,7 @@
                         android:background="@drawable/background_2">
 
                         <ImageView
-                            android:id="@+id/imageView3"
+                            android:id="@+id/imageViewHistory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -184,7 +184,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textViewHistory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -210,15 +210,15 @@
                         android:background="@drawable/background_2">
 
                         <ImageView
-                            android:id="@+id/imageView3"
+                            android:id="@+id/imageViewLogout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
                             android:layout_marginBottom="16dp"
+                            android:clickable="true"
+                            android:onClick="logOut"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +227,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textViewLogout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -280,14 +280,17 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/imageViewMelCity"
                             android:layout_width="174dp"
                             android:layout_height="129dp"
                             android:src="@drawable/melbourne_city"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/constraintLayout"
+                            android:id="@+id/constraintLayoutMelCity"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
@@ -302,14 +305,14 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/textViewMelCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Melbourne City Hunt"
-                        android:textAlignment="center">
+                        android:textAlignment="center"/>
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/buttonMelCity"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginLeft="16dp"
@@ -337,15 +340,17 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView4"
+                            android:id="@+id/imageViewUniEngineer"
                             android:layout_width="173dp"
                             android:layout_height="127dp"
                             android:src="@drawable/engineering"
-                            tools:layout_editor_absoluteX="0dp"
-                            tools:layout_editor_absoluteY="1dp" />
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/constraintLayout"
+                            android:id="@+id/constraintLayoutUniEngieer"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
@@ -360,14 +365,14 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/textViewUniEngineer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="UniMelb Engineering Hunt"
                         android:textAlignment="center"/>
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/buttonUniEngineer"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginLeft="16dp"
@@ -403,14 +408,17 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/imageViewUniCampus"
                             android:layout_width="174dp"
                             android:layout_height="129dp"
                             android:src="@drawable/unimelb"
-                            tools:layout_editor_absoluteY="-1dp" />
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/constraintLayout"
+                            android:id="@+id/constraintLayoutUniCampus"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
@@ -425,14 +433,14 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView7"
+                        android:id="@+id/textViewUniCampus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="UniMelb Campus Hunt"
                         android:textAlignment="center"/>
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/buttonUniCampus"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginLeft="16dp"
@@ -459,14 +467,17 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView4"
+                            android:id="@+id/imageViewBotGarden"
                             android:layout_width="173dp"
                             android:layout_height="127dp"
                             android:src="@drawable/melb_bot"
-                            tools:layout_editor_absoluteY="1dp" />
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/constraintLayout"
+                            android:id="@+id/constraintLayoutBotGarden"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
@@ -481,14 +492,14 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/textViewBotGarden"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Botanical Gardens Hunt"
                         android:textAlignment="center"/>
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/buttonBotGarden"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginLeft="16dp"
