@@ -184,7 +184,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/baseline_history_24" />
+                            app:srcCompat="@drawable/baseline_leaderboard_24" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
@@ -315,7 +315,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Melbourne City Hunt"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:textColor="@color/white"/>
 
                     <Button
                         android:id="@+id/buttonMelCity"
@@ -328,7 +329,7 @@
                         android:background="@drawable/background_btn1"
                         android:text="More Details"
                         android:textSize="10dp"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -375,7 +376,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="UniMelb Engineering Hunt"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:textColor="@color/white"/>
 
                     <Button
                         android:id="@+id/buttonUniEngineer"
@@ -443,7 +445,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="UniMelb Campus Hunt"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:textColor="@color/white"/>
 
                     <Button
                         android:id="@+id/buttonUniCampus"
@@ -503,7 +506,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Botanical Gardens Hunt"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:textColor="@color/white"/>
 
                     <Button
                         android:id="@+id/buttonBotGarden"
