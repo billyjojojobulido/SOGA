@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="48dp"
                     android:text="WELCOME TO SOGA"
                     android:textColor="@color/white"
                     android:textSize="38sp"
@@ -43,7 +43,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+
                     android:layout_marginBottom="16dp"
                     android:text="Lets start exploring"
                     android:textColor="@color/white"
@@ -314,7 +314,7 @@
                         android:layout_height="wrap_content"
                         android:text="Melbourne City Hunt"
                         android:textAlignment="center"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white" />
 
                     <Button
                         android:id="@+id/buttonMelCity"
@@ -326,8 +326,8 @@
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn1"
                         android:text="More Details"
-                        android:textSize="10dp"
                         android:textColor="@color/white"
+                        android:textSize="10dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -375,7 +375,7 @@
                         android:layout_height="wrap_content"
                         android:text="UniMelb Engineering Hunt"
                         android:textAlignment="center"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white" />
 
                     <Button
                         android:id="@+id/buttonUniEngineer"
@@ -387,13 +387,14 @@
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn2"
                         android:text="More Details"
-                        android:textSize="10dp"
                         android:textColor="#ffffff"
+                        android:textSize="10dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
