@@ -200,7 +200,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                    float zoomLevel = 20.0f; // Adjust the zoom level as needed
+                    float zoomLevel = mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
 
                     LatLng latLng = new LatLng(latitude, longitude);
 
@@ -212,7 +212,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .build();
 
                     // Animate the camera to the new
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
             });
@@ -266,7 +266,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentLatLng = new LatLng(latitude,longitude);
 //            double latitude = locationResult.getLastLocation().getLatitude();
 //            double longitude = locationResult.getLastLocation().getLongitude();
-            float zoomLevel = 20.0f; // Adjust the zoom level as needed
+            float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
 
             LatLng latLng = new LatLng(latitude, longitude);
 
@@ -278,7 +278,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .build();
 
             // Animate the camera to the new
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 //            if (mMap != null) {
 //                setUserLocationMarker(locationResult.getLastLocation());
@@ -515,7 +515,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         double latitude = location.getLatitude();
                         double longitude = location.getLongitude();
-                        float zoomLevel = 20.0f; // Adjust the zoom level as needed
+                        float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
 
                         LatLng latLng = new LatLng(latitude, longitude);
 
@@ -527,7 +527,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 .build();
 
                         // Animate the camera to the new
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
                         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
                 });

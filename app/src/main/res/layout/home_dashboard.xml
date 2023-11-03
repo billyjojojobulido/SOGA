@@ -171,7 +171,7 @@
                         android:background="@drawable/background_2">
 
                         <ImageView
-                            android:id="@+id/imageViewHistory"
+                            android:id="@+id/imageViewLeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -188,7 +188,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textViewHistory"
+                        android:id="@+id/textViewLeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

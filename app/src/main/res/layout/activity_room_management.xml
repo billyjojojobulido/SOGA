@@ -206,7 +206,7 @@
         android:ems="10"
         android:hint="e.g. University of Melbourne"
         android:inputType="text"
-        android:textSize="15sp"
+        android:textSize="15"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -239,11 +239,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.478" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/location_hint"
