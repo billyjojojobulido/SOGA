@@ -186,6 +186,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
+//        mMap.
 
         // The bottom will be covered by navigation bar, so padding some area
         mMap.setPadding(0, 0, 0, 150);
@@ -200,19 +201,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                    float zoomLevel = mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+                    float zoomLevel =20.0f; // Adjust the zoom level as needed
 
                     LatLng latLng = new LatLng(latitude, longitude);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
+
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(latLng)           // Sets the center of the map to the new location
-                            .zoom(zoomLevel)          // Sets the zoom
+                            .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
                             // .bearing(azimuth)      // Uncomment and set bearing if needed
                             // .tilt(tiltAngle)       // Uncomment and set tilt if needed
                             .build();
 
                     // Animate the camera to the new
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
             });
@@ -266,13 +269,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentLatLng = new LatLng(latitude,longitude);
 //            double latitude = locationResult.getLastLocation().getLatitude();
 //            double longitude = locationResult.getLastLocation().getLongitude();
-            float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+            float zoomLevel =  20.0f; // Adjust the zoom level as needed
 
             LatLng latLng = new LatLng(latitude, longitude);
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(latLng)           // Sets the center of the map to the new location
-                    .zoom(zoomLevel)          // Sets the zoom
+                    .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
                     // .bearing(azimuth)      // Uncomment and set bearing if needed
                     // .tilt(tiltAngle)       // Uncomment and set tilt if needed
                     .build();
@@ -319,20 +322,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStop() {
         super.onStop();
         stopLocationUpdates();
-    }
-
-    private void zoomToUserLocation() {
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-
     }
 
 
@@ -515,13 +504,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         double latitude = location.getLatitude();
                         double longitude = location.getLongitude();
-                        float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+//                        float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+                        float zoomLevel =  20.0f; // Adjust the zoom level as needed
 
                         LatLng latLng = new LatLng(latitude, longitude);
 
                         CameraPosition cameraPosition = new CameraPosition.Builder()
                                 .target(latLng)           // Sets the center of the map to the new location
-                                .zoom(zoomLevel)          // Sets the zoom
+                                .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
                                 // .bearing(azimuth)      // Uncomment and set bearing if needed
                                 // .tilt(tiltAngle)       // Uncomment and set tilt if needed
                                 .build();
@@ -531,7 +521,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
                 });
-                zoomToUserLocation();
+//                zoomToUserLocation();
                 Toast.makeText(this, "Location permission dined.",Toast.LENGTH_SHORT).show();
             }
         }
