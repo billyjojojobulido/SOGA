@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,11 +38,12 @@ public class LeaderBoard extends AppCompatActivity {
 
     private long startTime;
     private long endTime;
-    private int steps;
+    private long steps;
     private String user;
     private FirebaseFirestore db;
     String[] dataArray;
     private HashMap<String, Long> userRank = new HashMap<>();
+    private HashMap<String, Long> stepBoard = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();
@@ -61,25 +63,47 @@ public class LeaderBoard extends AppCompatActivity {
                             startTime = (long)document.getData().get("startTime");
                             endTime = (long)document.getData().get("endTime");
                             user = (String)document.getData().get("username");
+                            steps = (long)document.getData().get("steps");
                             userRank.put(user,endTime-startTime);
+                            stepBoard.put(user,steps);
 
                         }
+                        System.out.println(steps);
                         Map<String, Long> sortedMap = sortByValues(userRank);
                         dataArray = sortedMap.keySet().toArray(new String[0]);
 
-                        ArrayAdapter adapter = new ArrayAdapter<String>(LeaderBoard.this,R.layout.activity_list_view,R.id.listText,dataArray);
+                        List<HashMap<String, String>> listItems = new ArrayList<>();
+
+                        Iterator it = sortedMap.entrySet().iterator();
+                        while (it.hasNext())
+                        {
+                            HashMap<String, String> resultsMap = new HashMap<>();
+                            Map.Entry pair = (Map.Entry)it.next();
+                            resultsMap.put("First Line", pair.getKey().toString());
+                            resultsMap.put("Second Line", "Steps are " + stepBoard.get(pair.getKey().toString()));
+                            listItems.add(resultsMap);
+                        }
+
+                        SimpleAdapter adapter = new SimpleAdapter(LeaderBoard.this, listItems, R.layout.activity_list_view,
+                                new String[]{"First Line", "Second Line"},
+                                new int[]{R.id.listText, R.id.listText2});
+
+//                        ArrayAdapter adapter = new ArrayAdapter<String>(
+//                                R.layout.activity_list_view,
+//                                R.id.listText,
+//                                dataArray);
                         ListView listView = findViewById(R.id.LeaderList);
                         listView.setAdapter(adapter);
 
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                String selectedItem = (String) parent.getItemAtPosition(position);
-                                Toast.makeText(getApplicationContext(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                                String selectedItem = (String) parent.getItemAtPosition(position);
+////                                Toast.makeText(getApplicationContext(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
 
-                        System.out.println(dataArray[0]);
+
                         // Print the sorted map
 //                            for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
 //                                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());

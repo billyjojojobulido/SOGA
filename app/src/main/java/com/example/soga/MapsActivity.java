@@ -89,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int steps;
     private static final int MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1;
     private int initialStepCount = 0;
-    private int appSteps = 0;
+    private long appSteps = 0;
 
     private static final Long TASK_CODE_HORIZONTAL = 0L;
     private static final Long TASK_CODE_JUMP = 1L;
