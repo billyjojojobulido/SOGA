@@ -5,36 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".JoinActivity"
-    android:background="@drawable/bg4">
+    android:background="@drawable/bg3">
 
     <TextView
         android:id="@+id/textPop"
-        android:layout_width="249dp"
-        android:layout_height="61dp"
-        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLEASE ENTER HUNT CODE"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.379" />
+        app:layout_constraintVertical_bias="0.379"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/textJoinCode"
         android:layout_width="250dp"
         android:layout_height="75dp"
+        android:background="@drawable/background_btn3"
         android:hint="Enter code"
-        android:textColor="@color/white"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.479" />
+        app:layout_constraintVertical_bias="0.477" />
 
     <Button
         android:id="@+id/confirmBtn"
@@ -47,7 +50,8 @@
         app:layout_constraintHorizontal_bias="0.737"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.657" />
+        app:layout_constraintVertical_bias="0.657"
+        android:background="@drawable/round_button_background"/>
 
     <Button
         android:id="@+id/backBtn"
@@ -60,5 +64,6 @@
         app:layout_constraintHorizontal_bias="0.27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.659" />
+        app:layout_constraintVertical_bias="0.659"
+        android:background="@drawable/round_button_background"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
