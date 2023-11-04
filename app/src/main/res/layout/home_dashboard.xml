@@ -168,7 +168,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/background_2">
+                        android:background="@drawable/background_2"
+                        android:clickable="true"
+                        android:onClick="onButtonClickBoard">
 
                         <ImageView
                             android:id="@+id/imageViewLeader"

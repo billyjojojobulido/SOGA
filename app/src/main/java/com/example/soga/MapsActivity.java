@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,15 +47,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.soga.databinding.ActivityMapsBinding;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.Manifest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -66,13 +73,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final int ACCESS_LOCATION_REQUEST_CODE = 1001;
     private GoogleMap mMap;
+    private Sensor stepSensor;
     private LatLng currentLatLng;
     private ActivityMapsBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private ArrayList<HashMap<String, Object>> endpoints;
+    private long startTime;
+
+    private long currentTimeStamp;
     private int progress = 0;
+
+    private SensorEventListener stepListener;
+    private int steps;
+    private static final int MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1;
+    private int initialStepCount = 0;
+    private long appSteps = 0;
 
     private static final Long TASK_CODE_HORIZONTAL = 0L;
     private static final Long TASK_CODE_JUMP = 1L;
@@ -82,6 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker userMarker;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
+
+    private FirebaseFirestore db;
 
 
     private final ActivityResultLauncher<Intent> activityResultLauncher =
@@ -108,6 +127,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
         builder.setMessage("You have finished the game!");
+        currentTimeStamp = System.currentTimeMillis() / 1000;
+
+        long endTime = currentTimeStamp;
+        FirebaseUser user = mAuth.getCurrentUser();
+        String username = user.getEmail();
+
+        db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("username",username);
+        userInfo.put("startTime",startTime);
+        userInfo.put("endTime",endTime);
+        userInfo.put("steps",appSteps);
+        db.collection("userInfo").document(username).set(userInfo);
+        // Add a new document with a generated ID
+//        db.collection("userInfo").add(userInfo).addOnSuccessListener(
+//                new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                        Intent intent = new Intent(MapsActivity.this, LeaderBoard.class);
+//                        intent.putExtra("username", username);
+//                        intent.putExtra("endTime", endTime);
+//                        intent.putExtra("startTime",startTime);
+//                        intent.putExtra("steps",appSteps);
+//                        startActivity(intent);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MapsActivity.this,"Failed", Toast.LENGTH_SHORT).show();
+//                Log.w(ContentValues.TAG, "Error adding document", e);
+//            }
+//        });
 
         // btn to quite
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -136,6 +189,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         endpoints = (ArrayList<HashMap<String, Object>>) intent.getSerializableExtra("endpoints");
+        startTime =  (long) intent.getSerializableExtra("startTime");
+        System.out.println(startTime);
 
         int totalProgress = endpoints.size();
 
@@ -163,6 +218,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 ////            enableUserLocation();
 //        }
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+
+        //        if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) == null) {
+        //            step_text.setText("Not available");
+        //        }else{
+        //            step_text.setText("Available");
+        //        }
+
+        stepListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                steps = (int) event.values[0];
+                // Handle step count update
+                if (initialStepCount == 0) {
+                    // First sensor event, store the initial step count
+                    initialStepCount = steps;
+                } else {
+                    appSteps = steps - initialStepCount;
+                }//                simply for testing using firebase, should see a "userSteps" collection, and the instance is named Test
+//                storeSteps ("Test");
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                // Handle accuracy changes
+            }
+        };
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -186,6 +269,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
+//        mMap.
 
         // The bottom will be covered by navigation bar, so padding some area
         mMap.setPadding(0, 0, 0, 150);
@@ -200,19 +284,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                    float zoomLevel = mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+                    float zoomLevel =20.0f; // Adjust the zoom level as needed
 
                     LatLng latLng = new LatLng(latitude, longitude);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
+
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(latLng)           // Sets the center of the map to the new location
-                            .zoom(zoomLevel)          // Sets the zoom
+                            .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
                             // .bearing(azimuth)      // Uncomment and set bearing if needed
                             // .tilt(tiltAngle)       // Uncomment and set tilt if needed
                             .build();
 
                     // Animate the camera to the new
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
             });
@@ -266,13 +352,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentLatLng = new LatLng(latitude,longitude);
 //            double latitude = locationResult.getLastLocation().getLatitude();
 //            double longitude = locationResult.getLastLocation().getLongitude();
-            float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+            float zoomLevel =  20.0f; // Adjust the zoom level as needed
 
             LatLng latLng = new LatLng(latitude, longitude);
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(latLng)           // Sets the center of the map to the new location
-                    .zoom(zoomLevel)          // Sets the zoom
+                    .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
                     // .bearing(azimuth)      // Uncomment and set bearing if needed
                     // .tilt(tiltAngle)       // Uncomment and set tilt if needed
                     .build();
@@ -319,20 +405,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStop() {
         super.onStop();
         stopLocationUpdates();
-    }
-
-    private void zoomToUserLocation() {
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-
     }
 
 
@@ -515,13 +587,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         double latitude = location.getLatitude();
                         double longitude = location.getLongitude();
-                        float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+//                        float zoomLevel =  mMap.getCameraPosition().zoom; // Adjust the zoom level as needed
+                        float zoomLevel =  20.0f; // Adjust the zoom level as needed
 
                         LatLng latLng = new LatLng(latitude, longitude);
 
                         CameraPosition cameraPosition = new CameraPosition.Builder()
                                 .target(latLng)           // Sets the center of the map to the new location
-                                .zoom(zoomLevel)          // Sets the zoom
+                                .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
                                 // .bearing(azimuth)      // Uncomment and set bearing if needed
                                 // .tilt(tiltAngle)       // Uncomment and set tilt if needed
                                 .build();
@@ -531,7 +604,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
                 });
-                zoomToUserLocation();
+//                zoomToUserLocation();
                 Toast.makeText(this, "Location permission dined.",Toast.LENGTH_SHORT).show();
             }
         }
