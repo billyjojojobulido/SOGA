@@ -328,7 +328,7 @@
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn1"
                         android:onClick="CityHunt"
-                        android:text="More Details"
+                        android:text="Join Hunt"
                         android:textColor="@color/white"
                         android:textSize="10dp"
                         android:textStyle="bold" />
@@ -389,10 +389,10 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn2"
-                        android:text="More Details"
+                        android:onClick="EngineeringHunt"
+                        android:text="Join Hunt"
                         android:textColor="#ffffff"
                         android:textSize="10dp"
-                        android:onClick="EngineeringHunt"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -453,7 +453,6 @@
 
                     <Button
                         android:id="@+id/buttonUniCampus"
-                        android:onClick="CampusHunt"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginLeft="16dp"
@@ -461,9 +460,10 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn1"
-                        android:text="More Details"
-                        android:textSize="10dp"
+                        android:onClick="CampusHunt"
+                        android:text="Join Hunt"
                         android:textColor="#ffffff"
+                        android:textSize="10dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -522,9 +522,9 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn2"
-                        android:text="More Details"
-                        android:textSize="10dp"
+                        android:text="Join Hunt"
                         android:textColor="#ffffff"
+                        android:textSize="10dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
