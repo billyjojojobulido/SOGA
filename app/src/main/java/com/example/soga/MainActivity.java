@@ -211,6 +211,34 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case FEATURED_HUNT_CODE_CAMPUS:
+                HashMap<String, Object> campusMap1 = new HashMap<>();
+                /** Point1 - Melbourne Connect
+                 * */
+                campusMap1.put("answer", "Melbourne Connect");
+                campusMap1.put("hint", "partner program offered to select schools in metropolitan and regional Victoria. Activities are focused on empowering students with valuable insights into the transition from high school to university life.");
+                campusMap1.put("task", 1L);
+                campusMap1.put("lat", "-37.799959687");
+                campusMap1.put("lng", "144.964399125");
+                endpoints.add(campusMap1);
+                /** Point2 - Mechanical Engineering Building
+                 * */
+                HashMap<String, Object> campusMap2 = new HashMap<>();
+                campusMap2.put("answer", "Mechanical Engineering Building");
+                campusMap2.put("hint", "also known as Engineering Block E, is located towards the southern end of uni, off Grattan St and opposite Bouverie St. There is also an entrance from the university side of the building, behind Old Engineering.");
+                campusMap2.put("task", 0L);
+                campusMap2.put("lat", "-37.79974896");
+                campusMap2.put("lng", "144.96227243");
+                endpoints.add(campusMap2);
+
+                /** Point3 - Old Engineering Building
+                 * * */
+                HashMap<String, Object> campusMap3 = new HashMap<>();
+                campusMap3.put("answer", "Old Engineering Building");
+                campusMap3.put("hint", "also known as Engineering Block A, is located towards the southern end of uni, along Wilson Avenue. It is a large red brick building that houses multiple engineering design studios as well as a secret rooftop garden!");
+                campusMap3.put("task", 3L);
+                campusMap3.put("lat", "-37.79939611");
+                campusMap3.put("lng", " 144.9615708");
+                endpoints.add(campusMap3);
 
                 break;
             default:

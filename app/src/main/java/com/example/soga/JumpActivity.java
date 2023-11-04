@@ -33,6 +33,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private int realValue = 0;
     private boolean flag = false;
     Button finish;
+    Button start;
 
 
     @Override
@@ -49,7 +50,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         finish = findViewById(R.id.finish);
-
+        start = findViewById(R.id.startBtn);
+        start.setEnabled(true);
 
     }
 
@@ -98,7 +100,6 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             Log.d("mytag",Integer.toString(jumpCount));
 
             progressBar.setProgress(10*jumpCount);
-//        if(jumpCount > 5){
             myEditText = findViewById(R.id.acceValue);
             // Now you can work with myEditText
 
@@ -140,6 +141,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         progressBar.setVisibility(View.VISIBLE);
 
         flag = true;
+        start.setEnabled(false);
 //        updateProgressBar(progressBar);
     }
 
