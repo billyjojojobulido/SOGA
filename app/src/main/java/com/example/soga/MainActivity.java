@@ -180,6 +180,34 @@ public class MainActivity extends AppCompatActivity {
                 endpoints.add(map3);
                 break;
             case FEATURED_HUNT_CODE_ENGINEERING:
+                HashMap<String, Object> enghuntMap1 = new HashMap<>();
+                /** Point1 - Old Quandrangle
+                 * */
+                enghuntMap1.put("answer", "Old Quadrangle Building");
+                enghuntMap1.put("hint", "Old Quad is a museum and events space located in Melbourne and the original home to The University of Melbourne, constructed in 1856. Free entry.");
+                enghuntMap1.put("task", 1L);
+                enghuntMap1.put("lat", "-37.79744330");
+                enghuntMap1.put("lng", "144.96103158");
+                endpoints.add(enghuntMap1);
+                /** Point2 - ERC
+                 * */
+                HashMap<String, Object> engHuntMap2 = new HashMap<>();
+                engHuntMap2.put("answer", "Eastern Resource Centre (ERC)");
+                engHuntMap2.put("hint", "This library is the main library for the faculty of science and engineering.");
+                engHuntMap2.put("task", 0L);
+                engHuntMap2.put("lat", "-37.79927096");
+                engHuntMap2.put("lng", "144.96282791");
+                endpoints.add(engHuntMap2);
+
+                /** Point3 - Law
+                 * */
+                HashMap<String, Object> engHuntMap3 = new HashMap<>();
+                engHuntMap3.put("answer", "Law school");
+                engHuntMap3.put("hint", "one of the professional graduate schools of the University of Melbourne. Located in Carlton. In 2021–22, THE World University Rankings ranked the law school as 5th best in the world and first both in Australia and Asia-Pacific");
+                engHuntMap3.put("task", 0L);
+                engHuntMap3.put("lat", "-37.802277008");
+                engHuntMap3.put("lng", "144.96013502");
+                endpoints.add(engHuntMap3);
 
                 break;
             case FEATURED_HUNT_CODE_CAMPUS:
