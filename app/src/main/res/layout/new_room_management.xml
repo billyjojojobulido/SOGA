@@ -141,7 +141,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/background_btn3"
-            android:hint="Enter the location of task"
+            android:hint="Enter a location or GPS coordinates"
             android:inputType="text"
             android:padding="12dp"
             android:textColor="@color/black"
