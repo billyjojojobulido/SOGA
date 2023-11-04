@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:gravity="center"
+        android:textColor="@color/white"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/listText2"
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:gravity="center"
-        android:textStyle="bold" />
+        android:textColor="@color/white"/>
 
 
 </LinearLayout>

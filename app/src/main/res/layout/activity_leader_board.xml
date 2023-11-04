@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg3"
     tools:context=".LeaderBoard">
 
     <TextView
@@ -13,6 +14,7 @@
         android:text="LeaderBoard"
         android:textSize="34sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.439"
@@ -25,6 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="539dp"
         android:clickable="false"
+        android:divider="@color/teal_200"
+        android:dividerHeight="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,6 +42,9 @@
         android:layout_height="wrap_content"
         android:onClick="onClickBack"
         android:text="Back"
+        android:background="@drawable/background_btn2"
+        android:textSize="15dp"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.458"
