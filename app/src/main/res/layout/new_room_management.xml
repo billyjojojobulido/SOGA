@@ -123,7 +123,9 @@
                 android:alpha="0.6"
                 android:entries="@array/endpoint_tasks"
                 android:spinnerMode="dropdown"
-                android:layout_weight="80"/>
+                android:layout_weight="80"
+                android:textAlignment="center"
+                android:autofillHints="Select a task"/>
 
 
         </LinearLayout>
@@ -160,12 +162,7 @@
             android:layout_marginEnd="32dp"
             android:text="No location entered yet"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.31"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.369" />
+            android:layout_marginLeft="30dp"/>
 
         <Button
             android:layout_width="match_parent"
