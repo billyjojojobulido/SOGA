@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         Map<String, Object> game = new HashMap<>();
         game.put("uid", uid);
         game.put("roomCode", code);
-        game.put("progress", 0);
+        game.put("progress", 0L);
         game.put("startTime", currentTimeStamp);
         game.put("steps", 0);
         game.put("endpoints", endpoints);
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                  * */
                 map1.put("answer", "Victoria State Library");
                 map1.put("hint", "State landmark opened in 1856, spanning one city block & featuring a grand reading room.");
-                map1.put("task", 0);
+                map1.put("task", 0L);
                 map1.put("lat", "-37.8099889");
                 map1.put("lng", "144.9643298");
                 endpoints.add(map1);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, Object> map2 = new HashMap<>();
                 map2.put("answer", "Emporium Melbourne");
                 map2.put("hint", "Contemporary shopping mall offering a variety of upscale retailers, plus restaurants & a food court.");
-                map2.put("task", 1);
+                map2.put("task", 0L);
                 map2.put("lat", "-37.8123836");
                 map2.put("lng", "144.9638398");
                 endpoints.add(map2);
@@ -174,9 +174,9 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, Object> map3 = new HashMap<>();
                 map3.put("answer", "China town");
                 map3.put("hint", "Vibrant, historic neighborhood offering numerous Chinese eateries, shops & cultural events.");
-                map3.put("task", 2);
-                map3.put("lat", "37.81188876");
-                map3.put("lng", "144.9610315");
+                map3.put("task", 0L);
+                map3.put("lat", "-37.81188876");
+                map3.put("lng", " 144.9668043");
                 endpoints.add(map3);
                 break;
             case FEATURED_HUNT_CODE_ENGINEERING:

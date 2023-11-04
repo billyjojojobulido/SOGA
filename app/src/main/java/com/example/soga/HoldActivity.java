@@ -89,7 +89,8 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
                 if (isFacingUpStable) {
 
                     if (!isTimeRunning) {
-//                        button_test.setText("Checking");
+                        button_test.setText("Checking");
+                        button_test.setEnabled(false);
                         hold_textdown.setText("Almost there!");
                         start();
                     }
@@ -150,6 +151,7 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
         stabilityCheckCount = 0; // Reset the stability check counter
         hold_progress.setVisibility(View.INVISIBLE);
         hold_progress.setProgress(0);
+        button_test.setEnabled(true);
         button_test.setText("Start again");
         hold_textdown.setText("Oops, try one more time!");
 
@@ -161,7 +163,8 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 //        onPause();
         sensorManager.unregisterListener(this);
         stabilityHandler.removeCallbacks(stabilityRunnable);
-//        button_test.setText("finished");
+        button_test.setText("finished");
+        button_test.setEnabled(false);
         hold_textdown.setText("Congratulations! You made it.");
 
         done.setVisibility(View.VISIBLE);
