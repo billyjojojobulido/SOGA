@@ -10,21 +10,22 @@
     tools:context=".HoldActivity"
     android:background="@drawable/bg3">
 
+
     <TextView
         android:id="@+id/holdtextup"
-        android:layout_width="353dp"
-        android:layout_height="57dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Hold still for 10 seconds"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.372" />
-
+        app:layout_constraintVertical_bias="0.334" />
 
     <TextView
         android:id="@+id/holdtextdown"
@@ -38,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.468" />
+        app:layout_constraintVertical_bias="0.423" />
 
     <ProgressBar
         android:id="@+id/hold_progress"
@@ -52,20 +53,21 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="448dp">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="415dp">
 
         <Button
             android:id="@+id/hold_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
             android:layout_weight="50"
             android:background="@drawable/background_btn3"
             android:onClick="onButtonClick"
@@ -73,9 +75,11 @@
 
         <Button
             android:id="@+id/btn_hold_done"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
             android:layout_weight="50"
             android:background="@drawable/background_btn3"
             android:onClick="onButtonClickFinishHold"
