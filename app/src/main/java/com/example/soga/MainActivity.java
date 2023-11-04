@@ -245,6 +245,37 @@ public class MainActivity extends AppCompatActivity {
                 /**
                  * Botanical Gardens Hunt
                  * */
+                HashMap<String, Object> gardenMap1 = new HashMap<>();
+                /** Point1 - Flagstaff garden
+                 * */
+                gardenMap1.put("answer", "Flagstaff garden");
+                gardenMap1.put("hint", "Spacious, tranquil park with landscaped gardens & " +
+                        "sculptures, plus picnic & recreational facilities. Located in Melbourne City");
+                gardenMap1.put("task", 1L);
+                gardenMap1.put("lat", "-37.810473");
+                gardenMap1.put("lng", "144.9545092");
+                endpoints.add(gardenMap1);
+                /** Point2 - Carlton Garden
+                 * */
+                HashMap<String, Object> gardenMap2 = new HashMap<>();
+                gardenMap2.put("answer", "Carlton Garden");
+                gardenMap2.put("hint", "Landscaped Victorian-era park now containing the Royal " +
+                        "Exhibition Building and Melbourne Museum.");
+                gardenMap2.put("task", 0L);
+                gardenMap2.put("lat", "-37.8053295");
+                gardenMap2.put("lng", "144.9714446");
+                endpoints.add(gardenMap2);
+
+                /** Point3 - Fitzroy Garden
+                 * * */
+                HashMap<String, Object> gardenMap3 = new HashMap<>();
+                gardenMap3.put("answer", "Fitzroy Garden");
+                gardenMap3.put("hint", "Historic 26-hectare site in city centre with model Tudor " +
+                        "village, tree-lined walking paths & cafes.");
+                gardenMap3.put("task", 3L);
+                gardenMap3.put("lat", "-37.8125520");
+                gardenMap3.put("lng", "144.9800143");
+                endpoints.add(gardenMap3);
 
         }
         return endpoints;

@@ -522,6 +522,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn2"
+                        android:onClick="GardenHunt"
                         android:text="Join Hunt"
                         android:textColor="#ffffff"
                         android:textSize="10dp"
