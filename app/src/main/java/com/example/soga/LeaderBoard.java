@@ -75,13 +75,22 @@ public class LeaderBoard extends AppCompatActivity {
                         List<HashMap<String, String>> listItems = new ArrayList<>();
 
                         Iterator it = sortedMap.entrySet().iterator();
+//                        int i = 0;
                         while (it.hasNext())
                         {
+
                             HashMap<String, String> resultsMap = new HashMap<>();
                             Map.Entry pair = (Map.Entry)it.next();
-                            resultsMap.put("First Line", pair.getKey().toString());
-                            resultsMap.put("Second Line", "Steps are " + stepBoard.get(pair.getKey().toString()));
+                            resultsMap.put("First Line",pair.getKey().toString());
+                            long hours = (long)pair.getValue() / 3600;
+                            long minutes = (long)pair.getValue() / 60;
+                            long seconds = (long)pair.getValue() % 60;
+                            String time = String.format("%02d:%02d:%02d", hours,minutes, seconds);
+
+                            resultsMap.put("Second Line", "Time cost " + time);
+//                            i+=1;
                             listItems.add(resultsMap);
+
                         }
 
                         SimpleAdapter adapter = new SimpleAdapter(LeaderBoard.this, listItems, R.layout.activity_list_view,
