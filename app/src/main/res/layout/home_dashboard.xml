@@ -327,6 +327,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/background_btn1"
+                        android:onClick="CityHunt"
                         android:text="More Details"
                         android:textColor="@color/white"
                         android:textSize="10dp"
