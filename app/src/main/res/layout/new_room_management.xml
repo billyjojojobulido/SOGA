@@ -18,61 +18,73 @@
         android:layout_marginRight="16dp">
 
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="50dp"
-            android:text="Hunt Name"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Hunt Name"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/background_btn3"
-            android:hint="Enter your hunts name"
-            android:inputType="text"
-            android:padding="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:textSize="15sp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/background_btn3"
+                android:ems="10"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="How many players"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/background_btn3"
-            android:hint="Enter a number"
-            android:inputType="numberDecimal"
-            android:padding="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:textSize="15sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="201dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="How many players"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="12dp"
+
+                android:background="@drawable/background_btn3"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="15sp"
+                android:ems="10"
+                android:layout_weight="0.50"/>
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/task_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+
             android:layout_marginTop="16dp"
-            android:text="Create Scavenger Locations"
+            android:text="Create Scavenger Endpoints"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -80,9 +92,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
             android:background="@drawable/background_btn3"
             android:entries="@array/endpoint_tasks"
             android:spinnerMode="dropdown"
@@ -96,7 +106,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="Location"
             android:textColor="@color/black"
@@ -106,9 +115,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
             android:background="@drawable/background_btn3"
             android:hint="Enter the location of task"
             android:inputType="text"
@@ -121,7 +128,6 @@
             android:id="@+id/avail_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
             android:text="No location entered yet"
@@ -143,7 +149,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="32dp"
+
             android:text="Task Hint"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -151,9 +157,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="32dp"
+
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
             android:background="@drawable/background_btn3"
             android:hint="Enter a hint"
             android:inputType="text"
