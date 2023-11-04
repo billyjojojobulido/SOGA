@@ -77,10 +77,16 @@ public class LeaderBoard extends AppCompatActivity {
                         Iterator it = sortedMap.entrySet().iterator();
                         while (it.hasNext())
                         {
+
                             HashMap<String, String> resultsMap = new HashMap<>();
                             Map.Entry pair = (Map.Entry)it.next();
                             resultsMap.put("First Line", pair.getKey().toString());
-                            resultsMap.put("Second Line", "Steps are " + stepBoard.get(pair.getKey().toString()));
+                            long hours = (long)pair.getValue() / 3600;
+                            long minutes = (long)pair.getValue() / 60;
+                            long seconds = (long)pair.getValue() % 60;
+                            String time = String.format("%02d:%02d:%02d", hours,minutes, seconds);
+
+                            resultsMap.put("Second Line", "Time cost " + time);
                             listItems.add(resultsMap);
                         }
 
