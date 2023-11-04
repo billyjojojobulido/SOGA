@@ -36,6 +36,7 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 
     private ProgressBar hold_progress;
     private TextView hold_textdown;
+    Button done;
 
 
     @Override
@@ -46,6 +47,8 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
         hold_progress = findViewById(R.id.hold_progress);
         hold_progress.setVisibility(View.INVISIBLE);
         hold_textdown = findViewById(R.id.holdtextdown);
+        done = findViewById(R.id.btn_hold_done);
+        done.setVisibility(View.INVISIBLE);
 
 //        Log.d("DEBUG", "isTimeRunning value: " + isTimeRunning);
 
@@ -86,7 +89,7 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
                 if (isFacingUpStable) {
 
                     if (!isTimeRunning) {
-                        button_test.setText("Checking");
+//                        button_test.setText("Checking");
                         hold_textdown.setText("Almost there!");
                         start();
                     }
@@ -158,8 +161,10 @@ public class HoldActivity extends AppCompatActivity implements SensorEventListen
 //        onPause();
         sensorManager.unregisterListener(this);
         stabilityHandler.removeCallbacks(stabilityRunnable);
-        button_test.setText("finished");
+//        button_test.setText("finished");
         hold_textdown.setText("Congratulations! You made it.");
+
+        done.setVisibility(View.VISIBLE);
     }
 
     public void onButtonClick(View view) {
