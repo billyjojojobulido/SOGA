@@ -392,6 +392,7 @@
                         android:text="More Details"
                         android:textColor="#ffffff"
                         android:textSize="10dp"
+                        android:onClick="EngineeringHunt"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -452,6 +453,7 @@
 
                     <Button
                         android:id="@+id/buttonUniCampus"
+                        android:onClick="CampusHunt"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginLeft="16dp"
