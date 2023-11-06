@@ -588,11 +588,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void signOut(View view) {
-        mAuth.signOut();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+//        mAuth.signOut();
+//        Intent intent = new Intent(this, MainActivity.class);
+//        startActivity(intent);
         finish();
-        Toast.makeText(this, "User logged out.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "User logged out.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
