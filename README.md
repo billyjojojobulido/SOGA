@@ -45,17 +45,17 @@ A **scavenger hunt** is a recreational activity or game in which participants, o
       - [x] Positioning
       - [x] Small Games
       - [x] Evidences Editing
-    - [ ] Destination (Final Task)
-      - [ ] Find on map (Google Map API) 
-  - [ ] Player
+    - [x] Destination (Final Task)
+      - [x] Find on map (Google Map API) 
+  - [x] Player
     - [x] Constraint on
       - [x] Hints (depends on further design)
         - [x] Naive approach: give out the address
-    - [ ] Arrival Check
+    - [x] Arrival Check
       - [x] Button on the Screen
       - [x] Disance check
       - [x] Small Games Completion
-      - [ ] Leaderboard
-    - Leaderboard
-      - [ ] algorithm-based 
-      - [ ] show steps
+      - [x] History board
+    - History Board
+      - [x] show time per user 
+      - [x] show steps
