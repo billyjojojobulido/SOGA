@@ -296,6 +296,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     float zoomLevel =20.0f; // Adjust the zoom level as needed
 
                     LatLng latLng = new LatLng(latitude, longitude);
+                    System.out.println("check location "+latitude+" "+ longitude);
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
 
 

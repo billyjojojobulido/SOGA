@@ -29,7 +29,7 @@
         android:background="@drawable/background_btn3"
         android:hint="Enter code"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
