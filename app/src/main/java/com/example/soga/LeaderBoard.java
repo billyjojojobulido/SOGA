@@ -86,9 +86,9 @@ public class LeaderBoard extends AppCompatActivity {
                             long minutes = (long)pair.getValue() / 60;
                             long seconds = (long)pair.getValue() % 60;
                             String time = String.format("%02d:%02d:%02d", hours,minutes, seconds);
-                            resultsMap.put("First Line",pair.getKey().toString() + " ===== " + time);
+                            resultsMap.put("First Line",pair.getKey().toString() + " " + time);
 
-                            resultsMap.put("Second Line", "Steps" + stepBoard.get(pair.getKey().toString()));
+                            resultsMap.put("Second Line", "Steps " + stepBoard.get(pair.getKey().toString()));
 //                            i+=1;
                             listItems.add(resultsMap);
 

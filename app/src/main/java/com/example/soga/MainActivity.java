@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                  * */
                 map1.put("answer", "Victoria State Library");
                 map1.put("hint", "State landmark opened in 1856, spanning one city block & featuring a grand reading room.");
-                map1.put("task", 0L);
+                map1.put("task", 1L);
                 map1.put("lat", "-37.8099889");
                 map1.put("lng", "144.9643298");
                 endpoints.add(map1);
