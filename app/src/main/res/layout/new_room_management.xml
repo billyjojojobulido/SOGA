@@ -142,17 +142,18 @@
 
 
         <EditText
+            android:id="@+id/new_location_input"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
+            android:alpha="0.6"
             android:background="@drawable/background_btn3"
             android:hint="Enter a location or GPS coordinates"
             android:inputType="text"
             android:padding="12dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="15sp"
-            android:alpha="0.6"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/avail_text"
