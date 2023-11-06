@@ -139,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         userInfo.put("username",username);
         userInfo.put("startTime",startTime);
         userInfo.put("endTime",endTime);
-        userInfo.put("steps",appSteps);
+        userInfo.put("steps",800L);
         db.collection("userInfo").document(username).set(userInfo);
         // Add a new document with a generated ID
 //        db.collection("userInfo").add(userInfo).addOnSuccessListener(
