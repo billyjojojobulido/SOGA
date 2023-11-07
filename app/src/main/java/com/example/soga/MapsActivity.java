@@ -588,7 +588,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public void signOut(View view) {
+    public void Back(View view) {
 //        mAuth.signOut();
 //        Intent intent = new Intent(this, MainActivity.class);
 //        startActivity(intent);
