@@ -40,8 +40,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.112"
-        android:textSize="15sp"
-        android:paddingLeft="15dp"/>
+        android:textSize="13sp"
+        android:paddingLeft="20dp"/>
 
     <TextView
         android:id="@+id/room_name_text"
@@ -96,10 +96,10 @@
         android:ems="10"
         android:hint="Enter the location of an endpoint"
         android:inputType="text"
-        android:paddingLeft="15dp"
+        android:paddingLeft="20dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        android:textSize="15sp"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.858"
@@ -170,8 +170,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.553"
         android:paddingTop="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"/>
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"/>
 
     <TextView
         android:id="@+id/hint_text"
@@ -203,7 +203,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.425"
-        android:paddingLeft="15dp"/>
+        android:paddingLeft="20dp"/>
 
     <Button
         android:id="@+id/room_create_btn"
@@ -279,7 +279,7 @@
         android:ems="10"
         android:hint=""
         android:inputType="numberDecimal"
-        android:textAlignment="center"
+
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -288,7 +288,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.187"
-        android:textSize="20sp"/>
+        android:textSize="13sp"
+        android:paddingLeft="20dp"/>
 
     <ImageButton
         android:id="@+id/floatingActionButton"
