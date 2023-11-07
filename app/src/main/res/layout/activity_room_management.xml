@@ -249,8 +249,9 @@
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dfdfdf">
+            android:layout_height="3dp"
+            android:background="@color/primary_colour"
+            android:alpha="0.6">
 
         </View>
     </LinearLayout>
