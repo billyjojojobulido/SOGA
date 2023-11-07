@@ -186,7 +186,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/baseline_leaderboard_24" />
+                            app:srcCompat="@drawable/baseline_history_24" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
@@ -388,7 +388,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
-                        android:background="@drawable/background_btn2"
+                        android:background="@drawable/background_btn1"
                         android:onClick="EngineeringHunt"
                         android:text="Join Hunt"
                         android:textColor="#ffffff"
@@ -521,7 +521,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
-                        android:background="@drawable/background_btn2"
+                        android:background="@drawable/background_btn1"
                         android:onClick="GardenHunt"
                         android:text="Join Hunt"
                         android:textColor="#ffffff"
