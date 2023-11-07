@@ -32,16 +32,17 @@
         android:background="@drawable/background_btn3"
         android:ems="10"
         android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.923"
+        app:layout_constraintHorizontal_bias="0.918"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.112"
-        android:textSize="13sp"
-        android:paddingLeft="20dp"/>
+        app:layout_constraintVertical_bias="0.109" />
 
     <TextView
         android:id="@+id/room_name_text"
@@ -68,10 +69,31 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.185" />
+        app:layout_constraintVertical_bias="0.199" />
+
+    <EditText
+        android:id="@+id/location_input"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:alpha="0.6"
+        android:background="@drawable/background_btn3"
+        android:ems="10"
+        android:hint="Enter a location"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingRight="50dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.849"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.319" />
 
     <TextView
         android:id="@+id/all_endpoint_text"
@@ -85,42 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.252" />
-
-    <EditText
-        android:id="@+id/location_input"
-        android:layout_width="280dp"
-        android:layout_height="45dp"
-        android:alpha="0.6"
-        android:background="@drawable/background_btn3"
-        android:ems="10"
-        android:hint="Enter the location of an endpoint"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.858"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.312" />
-
-    <TextView
-        android:id="@+id/task_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Task"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.429" />
+        app:layout_constraintVertical_bias="0.261" />
 
     <TextView
         android:id="@+id/location_text"
@@ -133,10 +120,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintVertical_bias="0.324" />
 
     <TextView
         android:id="@+id/avail_text"
@@ -147,10 +134,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.328"
+        app:layout_constraintHorizontal_bias="0.393"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.368" />
+        app:layout_constraintVertical_bias="0.38" />
 
     <EditText
         android:id="@+id/location_hint"
@@ -162,16 +149,16 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:maxLines="8"
-        android:textSize="12sp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.849"
+        app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553"
-        android:paddingTop="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"/>
+        app:layout_constraintVertical_bias="0.561" />
 
     <TextView
         android:id="@+id/hint_text"
@@ -183,10 +170,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.128"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547" />
+        app:layout_constraintVertical_bias="0.555" />
 
     <Spinner
         android:id="@+id/end_task"
@@ -195,15 +182,15 @@
         android:alpha="0.6"
         android:background="@drawable/background_btn3"
         android:entries="@array/endpoint_tasks"
+        android:paddingLeft="20dp"
         android:spinnerMode="dropdown"
         android:tooltipText="Select a task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.858"
+        app:layout_constraintHorizontal_bias="0.849"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.425"
-        android:paddingLeft="20dp"/>
+        app:layout_constraintVertical_bias="0.433" />
 
     <Button
         android:id="@+id/room_create_btn"
@@ -214,10 +201,10 @@
         android:text="Create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.844"
+        app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.978" />
+        app:layout_constraintVertical_bias="0.986" />
 
     <Button
         android:id="@+id/add_endpoint_btn"
@@ -229,10 +216,54 @@
         android:text="+ Add Task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_hint"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintVertical_bias="0.08" />
+
+    <Button
+        android:id="@+id/create_room_back"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="@drawable/background_btn1"
+        android:onClick="backToMain"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.986" />
+
+    <ImageButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:background="@drawable/background_btn2"
+        android:clickable="true"
+        android:onClick="checkLocation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.319"
+        app:srcCompat="@drawable/search_icon" />
+
+    <TextView
+        android:id="@+id/task_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.129"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.437" />
 
     <LinearLayout
         android:id="@+id/card_layout"
@@ -250,25 +281,11 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:background="@color/primary_colour"
-            android:alpha="0.6">
+            android:alpha="0.6"
+            android:background="@color/primary_colour">
 
         </View>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/create_room_back"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:background="@drawable/background_btn1"
-        android:onClick="backToMain"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.978" />
 
     <EditText
         android:id="@+id/room_capacity"
@@ -277,33 +294,17 @@
         android:alpha="0.6"
         android:background="@drawable/background_btn3"
         android:ems="10"
-        android:hint=""
         android:inputType="numberDecimal"
+        android:textAlignment="center"
 
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.923"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.187"
-        android:textSize="13sp"
-        android:paddingLeft="20dp"/>
-
-    <ImageButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="46dp"
-        android:layout_height="45dp"
-        android:background="@drawable/background_btn2"
-        android:clickable="true"
-        android:onClick="checkLocation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.312"
-        app:srcCompat="@drawable/search_icon" />
+        app:layout_constraintVertical_bias="0.187" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
