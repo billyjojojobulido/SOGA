@@ -79,7 +79,7 @@
             android:layout_margin="30dp"
             android:background="@drawable/background_btn3"
             android:onClick="onButtonClickFinish"
-            android:text="Button"
+            android:text="Finish"
             android:textColor="@color/white"
             android:visibility="invisible" />
 

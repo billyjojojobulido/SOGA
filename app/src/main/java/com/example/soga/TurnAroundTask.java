@@ -78,7 +78,6 @@ public class TurnAroundTask extends AppCompatActivity implements SensorEventList
                 }
 
                 if(Math.abs(totalRotation)>= 350.0f){
-                    //TODO  Implement further
                     sensorManager.unregisterListener(this);
                     finishButton.setVisibility(View.VISIBLE);
 

@@ -119,26 +119,10 @@ public class LeaderBoard extends AppCompatActivity {
 //                                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
 //                            }
                     } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
+                        System.out.println( "Error getting documents: "+ task.getException());
                     }
                 }
             });
-        // Sort the HashMap by values
-//        System.out.println(userRank);
-//        System.out.println(dataArray[0]);
-//        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.activity_leader_board,dataArray);
-//        ListView listView = findViewById(R.id.LeaderList);
-//        listView.setAdapter(adapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedItem = (String) parent.getItemAtPosition(position);
-//                Toast.makeText(getApplicationContext(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-//
 
     }
 

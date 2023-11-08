@@ -162,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            }
 //        });
 
-        // btn to quite
+        // btn to quit
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
@@ -206,21 +206,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-//         check location permission
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//
-//            // if do not have, ask user for the permission
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSION);
-//        } else {
-//            // if it has, get location.
-////            getCurrentLocation();
-////            enableUserLocation();
-//            mMap.setMyLocationEnabled(true);
-////            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
-//
-//
-//        }
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -314,71 +299,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
         }
         }
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            mMap.setMyLocationEnabled(true);
-//            Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
-//            locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
-//                @Override
-//                public void onSuccess(Location location) {
-//                    System.out.println("on success onLocationResult: " + location.getLatitude());
-//
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//                    float zoomLevel =20.0f; // Adjust the zoom level as needed
-//
-//                    LatLng latLng = new LatLng(latitude, longitude);
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
-//
-//
-//                    CameraPosition cameraPosition = new CameraPosition.Builder()
-//                            .target(latLng)           // Sets the center of the map to the new location
-//                            .zoom(mMap.getCameraPosition().zoom)          // Sets the zoom
-//                            // .bearing(azimuth)      // Uncomment and set bearing if needed
-//                            // .tilt(tiltAngle)       // Uncomment and set tilt if needed
-//                            .build();
-//
-//                    // Animate the camera to the new
-////                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
-//                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//                }
-//            });
-////            zoomToUserLocation();
-////            getCurrentLocation();
-//
-////            zoomToUserLocation();
-//        } else {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                //We can show user a dialog why this permission is necessary
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_LOCATION_REQUEST_CODE);
-//            } else {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_LOCATION_REQUEST_CODE);
-//            }
-
-//        }
-        // Add a marker in Sydney and move the camera
-//        -37.79970759026579, 144.9636742373955
-//        -37.80364308009827, 144.96373452399772
-//        getCurrentLocation();
-//        LatLng unimelb = new LatLng(-37.80364308009827, 144.96373452399772);
-//        LatLng unimelb = currentLatLng;
-//        mMap.addMarker(new MarkerOptions().position(unimelb).title("Marker in Unimelb"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unimelb, 18));
-
-//        MarkerOptions markerOptions = new MarkerOptions()
-//                .position(currentLatLng)
-////                .icon(BitmapDescriptorFactory.fromResource(R.drawable.direction))
-//                .anchor(0.5f, 0.5f);
-//        int width = 50; // 标记宽度（像素）
-//        int height = 50; // 标记高度（像素）
-//        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.direction);
-//        Bitmap b = bitmapdraw.getBitmap();
-//        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-//        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));// 设置箭头图标
-//        userMarker = mMap.addMarker(markerOptions);
-//        userMarker.setRotation(headingAngle);
-
-//    }
-
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -480,7 +400,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        // 获取到新的位置信息后，在地图上更新标记或移动地图视图
+        //get new current location, change marker on the map and move the map view
         System.out.println(location.getLatitude() + location.getLongitude());
         LatLng newLocation = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newLocation));
@@ -502,7 +422,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.setTitle("Hint For Current Endpoint");
         builder.setMessage("Hint:\n" + hint);
 
-        // btn to quite
+        // btn to quit
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
@@ -543,7 +463,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             double lat = Double.parseDouble(endpointLat);
             double lon = Double.parseDouble(endpointLon);
-            boolean isNearBy = isLocationNearby(lat, lon, 100);
+            boolean isNearBy = isLocationNearby(lat, lon, 50);
             if (isNearBy) {
                 System.out.println("You are here.");
                 /**
